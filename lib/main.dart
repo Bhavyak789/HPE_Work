@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hpe_work/switch_screen.dart';
-// import 'package:hpe_ui/analytics.dart';
-// import 'package:hpe_ui/login_page.dart';
+//import 'package:hpe_work/analytics.dart';
 
 void main() {
   runApp(const MyApp());

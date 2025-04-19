@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:hpe_work/data/temp_logs.dart';
 import 'package:csv/csv.dart';
 import 'package:flutter/services.dart';
-//import 'package:hpe_work/data/model/idData.dart';
+import 'package:hpe_work/widgets.dart/table.dart';
+import 'package:hpe_work/widgets.dart/ui_colors.dart';
 
 class Analytics extends StatefulWidget {
   const Analytics({super.key});
@@ -32,7 +33,7 @@ class _AnalyticsState extends State<Analytics> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(226, 54, 54, 57),
+      backgroundColor: AppColors.secondary,
       appBar: AppBar(
         title: const Text(
           'HPE Network Analytics',
@@ -42,7 +43,7 @@ class _AnalyticsState extends State<Analytics> {
             fontFamily: 'MetricHPE',
           ),
         ),
-        backgroundColor: const Color.fromARGB(255, 1, 169, 130),
+        backgroundColor: AppColors.primary,
       ),
       body: Padding(
         padding: const EdgeInsets.all(25),
@@ -114,7 +115,7 @@ class _AnalyticsState extends State<Analytics> {
                     height: 57,
                     width: 1170,
                     decoration: BoxDecoration(
-                      color: const Color.fromARGB(255, 1, 169, 130),
+                      color: AppColors.primary,
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Padding(
@@ -158,7 +159,7 @@ class _AnalyticsState extends State<Analytics> {
                                   Colors
                                       .white, //const Color.fromARGB( 226,54,54,57),
                               style: TextStyle(
-                                color: Color.fromARGB(255, 1, 169, 130),
+                                color: AppColors.primary,
                                 fontSize: 16,
                                 fontFamily: 'MetricHPE',
                               ),
@@ -192,7 +193,7 @@ class _AnalyticsState extends State<Analytics> {
                                   Colors
                                       .white, //const Color.fromARGB( 226,54,54,57),
                               style: TextStyle(
-                                color: Color.fromARGB(255, 1, 169, 130),
+                                color: AppColors.primary,
                                 fontSize: 16,
                                 fontFamily: 'MetricHPE',
                               ),
@@ -226,7 +227,7 @@ class _AnalyticsState extends State<Analytics> {
                                   Colors
                                       .white, //const Color.fromARGB( 226,54,54,57),
                               style: TextStyle(
-                                color: Color.fromARGB(255, 1, 169, 130),
+                                color: AppColors.primary,
                                 fontSize: 16,
                                 fontFamily: 'MetricHPE',
                               ),
@@ -252,6 +253,7 @@ class _AnalyticsState extends State<Analytics> {
                               onChanged: (String? newIpValue) {
                                 setState(() {
                                   ipValue = newIpValue!;
+                                  //String ipv = ipValue;
                                 });
                               },
                               value: ipValue,
@@ -260,7 +262,7 @@ class _AnalyticsState extends State<Analytics> {
                                   Colors
                                       .white, //const Color.fromARGB( 226,54,54,57),
                               style: TextStyle(
-                                color: Color.fromARGB(255, 1, 169, 130),
+                                color: AppColors.primary,
                                 fontSize: 16,
                                 fontFamily: 'MetricHPE',
                               ),
@@ -271,12 +273,7 @@ class _AnalyticsState extends State<Analytics> {
                           ElevatedButton(
                             onPressed: _loadCSV,
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color.fromARGB(
-                                226,
-                                54,
-                                54,
-                                57,
-                              ),
+                              backgroundColor: AppColors.secondary,
                               foregroundColor: Colors.white,
                               padding: const EdgeInsets.symmetric(
                                 horizontal: 40,
@@ -300,171 +297,19 @@ class _AnalyticsState extends State<Analytics> {
                   ),
                 ),
                 SizedBox(height: 15),
+
+                //CustomScrollView
                 SingleChildScrollView(
-                  //scrollDirection: Axis.horizontal,
-                  //scrollDirection: Axis.vertical,
                   child: Padding(
                     padding: const EdgeInsets.only(left: 25),
                     child: Container(
                       decoration: BoxDecoration(
-                        color: const Color.fromARGB(255, 1, 169, 130),
+                        color: AppColors.primary,
                         borderRadius: BorderRadius.circular(8),
                       ),
                       height: 551,
                       width: 1168,
-                      child: Padding(
-                        padding: const EdgeInsets.all(15),
-                        child: ListView.builder(
-                          itemCount: _data.length,
-                          itemBuilder: (ctx, index) {
-                            return Card(
-                              margin: const EdgeInsets.all(5),
-                              color:
-                                  index == 0
-                                      ? const Color.fromARGB(226, 54, 54, 57)
-                                      : const Color.fromARGB(
-                                        255,
-                                        243,
-                                        243,
-                                        243,
-                                      ),
-                              // Table(
-                              //   border: TableBorder.all(
-                              //     borderRadius: BorderRadius.circular(8),
-                              //     color: Colors.white,
-                              //     width: 1.5,
-                              //   ),
-                              //   defaultVerticalAlignment:
-                              //       TableCellVerticalAlignment.middle,
-                              //   children: [
-                              //     TableRow(
-                              //       decoration: BoxDecoration(
-                              //         color: index ==0 ?const Color.fromARGB(
-                              //           226,
-                              //           54,
-                              //           54,
-                              //           57,
-                              //         ) : Colors.white,
-                              //         borderRadius: BorderRadius.circular(8),
-                              //       ),
-                              //       children: [
-                              //         TableCell(
-                              //           child: Padding(
-                              //             padding: const EdgeInsets.all(8.0),
-                              //             child: Text(
-                              //               'SNo. /n$index',
-                              //               style: TextStyle(
-                              //                 fontFamily: 'MetricHPE',
-                              //                 fontSize: 16,
-                              //                 color: Colors.white,
-                              //               ),
-                              //             ),
-                              //           ),
-                              //         ),
-                              //         TableCell(
-                              //           child: Padding(
-                              //             padding: const EdgeInsets.all(8.0),
-                              //             child: Text(
-                              //               'Neighbour Id /n${[index][5]}',
-                              //               style: TextStyle(
-                              //                 fontFamily: 'MetricHPE',
-                              //                 fontSize: 16,
-                              //                 color: Colors.white,
-                              //               ),
-                              //             ),
-                              //           ),
-                              //         ),
-                              //         TableCell(
-                              //           child: Padding(
-                              //             padding: const EdgeInsets.all(8.0),
-                              //             child: Text(
-                              //               'IP version /n${[index][6]}',
-                              //               style: TextStyle(
-                              //                 fontFamily: 'MetricHPE',
-                              //                 fontSize: 16,
-                              //                 color: Colors.white,
-                              //               ),
-                              //             ),
-                              //           ),
-                              //         ),
-                              //         TableCell(
-                              //           child: Padding(
-                              //             padding: const EdgeInsets.all(8.0),
-                              //             child: Text(
-                              //               'Area Id /n${[index][7]}',
-                              //               style: TextStyle(
-                              //                 fontFamily: 'MetricHPE',
-                              //                 fontSize: 16,
-                              //                 color: Colors.white,
-                              //               ),
-                              //             ),
-                              //           ),
-                              //         ),
-                              //         TableCell(
-                              //           child: Padding(
-                              //             padding: const EdgeInsets.all(8.0),
-                              //             child: Text(
-                              //               'Router Id /n${[index][8]}',
-                              //               style: TextStyle(
-                              //                 fontFamily: 'MetricHPE',
-                              //                 fontSize: 16,
-                              //                 color: Colors.white,
-                              //               ),
-                              //             ),
-                              //           ),
-                              //         ),
-                              //         TableCell(
-                              //           child: Padding(
-                              //             padding: const EdgeInsets.all(8.0),
-                              //             child: Text(
-                              //               'Initial State /n${[index][9]}',
-                              //               style: TextStyle(
-                              //                 fontFamily: 'MetricHPE',
-                              //                 fontSize: 16,
-                              //                 color: Colors.white,
-                              //               ),
-                              //             ),
-                              //           ),
-                              //         ),
-                              //         TableCell(
-                              //           child: Padding(
-                              //             padding: const EdgeInsets.all(8.0),
-                              //             child: Text(
-                              //               'Final State /n${[index][10]}',
-                              //               style: TextStyle(
-                              //                 fontFamily: 'MetricHPE',
-                              //                 fontSize: 16,
-                              //                 color: Colors.white,
-                              //               ),
-                              //             ),
-                              //           ),
-                              //         ),
-                              //       ],
-                              //     ),
-                              //   ],
-                              // );
-                              child: ListTile(
-                                title:
-                                    index == 0
-                                        ? Text(
-                                          'SNo.   Neighbour Id    IP Version    Area Id    Router Id    Initial State     Final State ',
-                                          style: TextStyle(
-                                            fontSize: 16,
-                                            fontFamily: 'MetricHPE',
-                                            color:
-                                                index == 0
-                                                    ? Colors.white
-                                                    : Colors.black,
-                                          ),
-                                        )
-                                        : Text(
-                                          ' $index          ${_data[index][5]}           ${_data[index][6]}         ${_data[index][7]}      ${_data[index][8]}      ${_data[index][9]}              ${_data[index][10]}',
-                                        ),
-                              ),
-                            );
-                          },
-                        ),
-                      ),
+                      child: TableW(_data),
                     ),
                   ),
                 ),
