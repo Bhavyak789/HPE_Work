@@ -20,6 +20,11 @@ class _AnalyticsState extends State<Analytics> {
   String areaValue = areaId[0];
   String ipValue = ipV[0];
 
+  String? nbrAdd;
+  String? rtrAdd;
+  String? areaAdd;
+  String? ipAdd;
+
   void _loadCSV() async {
     final _rawData = await rootBundle.loadString('assets/logs.csv');
     List<List<dynamic>> _listData = const CsvToListConverter().convert(
@@ -153,6 +158,7 @@ class _AnalyticsState extends State<Analytics> {
                                   nbrValue = newNbrValue!;
                                 });
                               }, //scev
+
                               value: nbrValue,
                               borderRadius: BorderRadius.circular(8),
                               dropdownColor:

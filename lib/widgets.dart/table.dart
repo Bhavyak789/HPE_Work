@@ -9,25 +9,29 @@ class TableW extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.all(6),
-        child: DataTable(
-          columns: _createColumn(),
-          rows: _createRow(_data),
-          //headingRowColor: WidgetStateColor.resolveWith(callback),
-          headingTextStyle: TextStyle(
-            fontSize: 16,
-            fontFamily: 'MetricHPE',
-            color: Colors.white,
-          ),
-          dataTextStyle: const TextStyle(
-            fontSize: 16,
-            fontFamily: 'MetricHPE',
-            color: Colors.white,
-          ),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(8),
-            color: AppColors.secondary, //Color.fromARGB(226, 54, 54, 57),
+      scrollDirection: Axis.horizontal,
+      child: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        child: Padding(
+          padding: const EdgeInsets.all(6),
+          child: DataTable(
+            columns: _createColumn(),
+            rows: _createRow(_data),
+            //headingRowColor: WidgetStateColor.resolveWith(callback),
+            headingTextStyle: TextStyle(
+              fontSize: 16,
+              fontFamily: 'MetricHPE',
+              color: Colors.white,
+            ),
+            dataTextStyle: const TextStyle(
+              fontSize: 16,
+              fontFamily: 'MetricHPE',
+              color: Colors.white,
+            ),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              color: AppColors.secondary, //Color.fromARGB(226, 54, 54, 57),
+            ),
           ),
         ),
       ),
