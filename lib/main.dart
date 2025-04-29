@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:hpe_work/data/dropdown_vals.dart';
 import 'package:hpe_work/switch_screen.dart';
+import 'package:hpe_work/widgets.dart/ui_colors.dart';
 //import 'package:hpe_work/analytics.dart';
 
 void main() {
@@ -15,7 +17,8 @@ class MyApp extends StatelessWidget {
       title: 'HPE Network Analysis',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color.fromARGB(255, 41, 209, 52),
+          seedColor:
+              AppColors.primary, //const Color.fromARGB(255, 41, 209, 52),
         ),
       ),
       home: SwitchScreen(),

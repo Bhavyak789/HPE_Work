@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:hpe_work/analytics.dart';
-import 'package:hpe_work/login_page.dart';
+import 'package:hpe_work/screens/login_page.dart';
+import 'package:hpe_work/screens/analytics.dart';
+import 'package:hpe_work/screens/stable_nbrs.dart';
 
 class SwitchScreen extends StatefulWidget {
   const SwitchScreen({super.key});
@@ -31,7 +32,7 @@ class _SwitchScreen extends State<SwitchScreen> {
     Widget screen = LoginPage(switchScr);
 
     if (activeScr == 'analysisScreen') {
-      screen = Analytics();
+      screen = StableNbrs();
     }
 
     // if (activeScr == 'analysisScreen') {

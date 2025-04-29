@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:hpe_work/widgets.dart/ui_colors.dart';
+//import 'package:hpe_work/data/dropdown_vals.dart';
 
 class TableW extends StatelessWidget {
-  const TableW(this._data, {super.key});
+  const TableW(this._data, this.areaAdd, this.nbrAdd, this.rtrAdd, {super.key});
+
+  final String nbrAdd;
+  final String rtrAdd;
+  final String areaAdd;
 
   final List<List<dynamic>> _data;
 
@@ -11,7 +16,6 @@ class TableW extends StatelessWidget {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: SingleChildScrollView(
-        scrollDirection: Axis.vertical,
         child: Padding(
           padding: const EdgeInsets.all(6),
           child: DataTable(
@@ -45,8 +49,14 @@ List<DataColumn> _createColumn() => [
   DataColumn(label: Text('IP Version')),
   DataColumn(label: Text('Area Id')),
   DataColumn(label: Text('Router Id')),
-  DataColumn(label: Text('Initial State')),
-  DataColumn(label: Text('Final State')),
+  DataColumn(label: Text('Down State')),
+  DataColumn(label: Text('Attempt State')),
+  DataColumn(label: Text('Init State')),
+  DataColumn(label: Text('2-Way State')),
+  DataColumn(label: Text('Extart State')),
+  DataColumn(label: Text('Exchange State')),
+  DataColumn(label: Text('Loading State')),
+  DataColumn(label: Text('Full State')),
 ];
 
 List<DataRow> _createRow(List<List<dynamic>> data) {
@@ -64,23 +74,3 @@ List<DataRow> _createRow(List<List<dynamic>> data) {
     );
   });
 }
-
-  // List<DataRow> rows = [];
-
-  // for (int i = 1; i < data.length; i++) {
-  //   rows.add(
-  //     DataRow(
-  //       cells: [
-  //         DataCell(Text(data[i].toString())),
-  //         DataCell(Text(data[i][5].toString())),
-  //         DataCell(Text(data[i][6].toString())),
-  //         DataCell(Text(data[i][7].toString())),
-  //         DataCell(Text(data[i][8].toString())),
-  //         DataCell(Text(data[i][9].toString())),
-  //         DataCell(Text(data[i][10].toString())),
-  //       ],
-  //     ),
-  //   );
-  // }
-  // return rows;
-
