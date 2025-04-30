@@ -3,7 +3,7 @@ class LogData {
   final String? routerID;
   final String? areaID;
   final String? IPversion;
-  final double? Init;
+  final double? Down;
   final double? Full;
 
   LogData({
@@ -11,7 +11,7 @@ class LogData {
     this.routerID,
     this.areaID,
     this.IPversion,
-    this.Init,
+    this.Down,
     this.Full,
   });
 
@@ -21,7 +21,7 @@ class LogData {
       routerID: json['routerID'] ?? "-",
       areaID: json['areaID'] ?? "-",
       IPversion: json['IPversion'] ?? "-",
-      Init: json['Init'] ?? -1,
+      Down: json['Down'] ?? -1,
       Full: json['Full'] ?? -1,
     );
   }

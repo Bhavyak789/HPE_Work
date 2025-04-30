@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hpe_work/data/dropdown_vals.dart';
+//import 'package:hpe_work/data/dropdown_vals.dart';
 import 'package:hpe_work/data/model.dart';
 import 'package:hpe_work/widgets.dart/ui_colors.dart';
 
@@ -18,9 +18,9 @@ class _TableW2State extends State<TableW3> {
   int? _sortColumnIndex;
 
   @override
-  void initState() {
-    super.initState();
-    _sortedData = widget._data; // Initialize sorted data with the original data
+  void DownState() {
+    //super.DownState();
+    _sortedData = widget._data; // Downialize sorted data with the original data
   }
 
   void _sort<T>(
@@ -98,7 +98,7 @@ class _TableW2State extends State<TableW3> {
     DataColumn(
       label: Text('Down Time'),
       onSort: (columnIndex, ascending) {
-        _sort((log) => log.Init ?? 0.0, columnIndex, ascending);
+        _sort((log) => log.Down ?? 0.0, columnIndex, ascending);
       },
     ),
   ];
@@ -115,7 +115,7 @@ class _TableW2State extends State<TableW3> {
           DataCell(Text(data[index].areaID.toString())),
           DataCell(Text(data[index].IPversion.toString())),
           DataCell(Text(data[index].Full.toString())),
-          DataCell(Text(data[index].Init.toString())),
+          DataCell(Text(data[index].Down.toString())),
         ],
       );
     });

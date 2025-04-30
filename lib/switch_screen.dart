@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hpe_work/screens/login_page.dart';
-import 'package:hpe_work/screens/analytics.dart';
+//import 'package:hpe_work/screens/analytics.dart';
 import 'package:hpe_work/screens/stable_nbrs.dart';
 
 class SwitchScreen extends StatefulWidget {

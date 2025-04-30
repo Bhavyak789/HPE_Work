@@ -4,7 +4,7 @@ import 'package:hpe_work/data/model.dart';
 import 'package:hpe_work/widgets.dart/table2.dart';
 //import 'package:csv/csv.dart';
 //import 'package:flutter/services.dart';
-import 'package:hpe_work/widgets.dart/table3.dart';
+//import 'package:hpe_work/widgets.dart/table3.dart';
 import 'package:hpe_work/widgets.dart/ui_colors.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -31,12 +31,20 @@ class _StableNbrsState extends State<StableNbrs> {
   String? ipAdd;
 
   void _loadJSON() async {
-    final url = Uri.https(
-      'hpe-work-b4838-default-rtdb.firebaseio.com',
-      'logs.json',
+    final url = Uri.http(
+      // 'hpe-work-b4838-default-rtdb.firebaseio.com',
+      // 'logs.json',
+      // 'techrepublic-seafood-deeply-observation.trycloudflare.com',
+      // 'stability',
+      'localhost:3000',
+      'stability',
     );
+    //print(url);
+
     //final response = await rootBundle.loadString('demo_js.json');
     final response = await http.get(url);
+    //print('Response status: ${response.statusCode}');
+    //print('Response : ${response.body}');
     final List<dynamic> _Tempdata = json.decode(response.body);
     //print(_Tempdata);
     final List<LogData> _Loaddata = [];
@@ -48,11 +56,11 @@ class _StableNbrsState extends State<StableNbrs> {
           nbrID: item['nbrID'] ?? "-",
           areaID: item['areaID'] ?? "-",
           IPversion: item['IPversion'] ?? "-",
-          Init: item['Init'] ?? -1,
+          Down: item['Down'] ?? -1,
           Full: item['Full'] ?? -1,
         ),
       );
-      //print(_Loaddata[0].routerID);
+      print(_Loaddata[0].routerID);
     }
 
     setState(() {
