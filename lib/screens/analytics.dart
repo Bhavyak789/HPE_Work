@@ -283,16 +283,16 @@ class _AnalyticsState extends State<Analytics> {
                   ),
                   height: 551,
                   width: 1170,
-                  child: TableW(
-                    nbrValue == 'Neighbour Id' &&
-                            areaValue == 'Area Id' &&
-                            rtrValue == 'Router Id'
-                        ? _data
-                        : _filteredData1,
-                    areaValue,
-                    nbrValue,
-                    rtrValue,
-                  ),
+                  // child: TableW(
+                  //   nbrValue == 'Neighbour Id' &&
+                  //           areaValue == 'Area Id' &&
+                  //           rtrValue == 'Router Id'
+                  //       ? _data
+                  //       : _filteredData1,
+                  //   areaValue,
+                  //   nbrValue,
+                  //   rtrValue,
+                  // ),
                 ),
               ),
             ),

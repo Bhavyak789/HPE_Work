@@ -70,7 +70,6 @@ List<DataRow> _createRow(List<LogData> data) {
         DataCell(Text((index + 1).toString())),
         DataCell(Text(data[index].routerID.toString())),
         DataCell(Text(data[index].nbrID.toString())),
-        //DataCell(Text(data[index].nbrID.toString())),
         DataCell(Text(data[index].areaID.toString())),
         DataCell(Text(data[index].IPversion.toString())),
         DataCell(Text(data[index].Full.toString())),
