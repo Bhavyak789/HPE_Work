@@ -1,177 +1,66 @@
 import 'package:flutter/material.dart';
 import 'package:hpe_work/data/dropdown_vals.dart';
-import 'package:hpe_work/data/model.dart';
-import 'package:hpe_work/data/model2.dart';
-import 'package:hpe_work/widgets.dart/table2.dart';
+import 'package:csv/csv.dart';
+import 'package:flutter/services.dart';
 import 'package:hpe_work/widgets.dart/table.dart';
-import 'package:hpe_work/widgets.dart/table3.dart';
-
 import 'package:hpe_work/widgets.dart/ui_colors.dart';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
 
-class StableNbrs extends StatefulWidget {
-  const StableNbrs({super.key});
+class Analytics extends StatefulWidget {
+  const Analytics({super.key});
 
   @override
-  State<StableNbrs> createState() => _StableNbrsState();
+  State<Analytics> createState() => _AnalyticsState();
 }
 
-class _StableNbrsState extends State<StableNbrs> {
-  List<LogData> _data = [];
-  List<LogData> _data2 = [];
-  List<LogData2> _data3 = [];
-
-  List<LogData2> _filteredData1 = [];
-  int table = 3;
-  final String serverUrl = 'localhost:3000';
+class _AnalyticsState extends State<Analytics> {
+  List<List<dynamic>> _data = [];
+  List<List<dynamic>> _filteredData1 = [];
 
   String nbrValue = nbrId[0];
   String rtrValue = routerID[0];
   String areaValue = areaId[0];
-  String IPversionalue = IPversion[0];
+  String ipValue = IPversion[0];
 
   String? nbrAdd;
   String? rtrAdd;
   String? areaAdd;
   String? ipAdd;
 
-  Widget _buildTable() {
-    if (table == 2) {
-      return TableW3(_data2);
-    } else if (table == 1) {
-      return TableW2(_data);
-    } else {
-      return TableW(
-        nbrValue == 'Neighbour Id' &&
-                areaValue == 'Area Id' &&
-                rtrValue == 'Router Id'
-            ? _data3
-            : _filteredData1,
-      );
-    }
-  }
-
-  void _loadJSON() async {
-    final url = Uri.http(serverUrl, 'stability');
-
-    final response = await http.get(url);
-
-    final List<dynamic> _Tempdata = json.decode(response.body);
-    final List<LogData> _Loaddata = [];
-
-    for (final item in _Tempdata) {
-      _Loaddata.add(
-        LogData(
-          routerID: item['routerID'] ?? "-",
-          nbrID: item['nbrID'] ?? "-",
-          areaID: item['areaID'] ?? "-",
-          IPversion: item['IPversion'] ?? "-",
-          Down: item['Down'] ?? -1,
-          Full: item['Full'] ?? -1,
-        ),
-      );
-    }
-
+  void _loadCSV() async {
+    final _rawData = await rootBundle.loadString('assets/logs.csv');
+    List<List<dynamic>> _listData = const CsvToListConverter().convert(
+      _rawData,
+    );
     setState(() {
-      _data = _Loaddata;
-      //_filterData();
-    });
-  }
-
-  void _loadJSON2() async {
-    final url = Uri.http(serverUrl, 'unstability');
-
-    final response = await http.get(url);
-
-    final List<dynamic> _Tempdata = json.decode(response.body);
-
-    final List<LogData> _Loaddata = [];
-
-    for (final item in _Tempdata) {
-      _Loaddata.add(
-        LogData(
-          routerID: item['routerID'] ?? "-",
-          nbrID: item['nbrID'] ?? "-",
-          areaID: item['areaID'] ?? "-",
-          IPversion: item['IPversion'] ?? "-",
-          Down: item['Down'] ?? -1,
-          Full: item['Full'] ?? -1,
-        ),
-      );
-    }
-
-    setState(() {
-      _data2 = _Loaddata;
-      //_filterData();
-    });
-  }
-
-  void _loadJSON3() async {
-    final url = Uri.http(serverUrl, 'filter');
-
-    final response = await http.get(url);
-
-    final List<dynamic> _Tempdata = json.decode(response.body);
-
-    final List<LogData2> _Loaddata = [];
-
-    for (final item in _Tempdata) {
-      _Loaddata.add(
-        LogData2(
-          routerID: item['routerID'] ?? "-",
-          nbrID: item['nbrID'] ?? "-",
-          areaID: item['areaID'] ?? "-",
-          IPversion: item['IPversion'] ?? "-",
-          Down: item['Down'] ?? -1,
-          Full: item['Full'] ?? -1,
-          Attempt: item['Attempt'] ?? -1,
-          Init: item['Init'] ?? -1,
-          TwoWay: item['TwoWay'] ?? -1,
-          Exstart: item['Exstart'] ?? -1,
-          Exchange: item['Exchange'] ?? -1,
-          Loading: item['Loading'] ?? -1,
-        ),
-      );
-    }
-
-    setState(() {
-      _data3 = _Loaddata;
-      _filterData;
+      _data = _listData;
+      _filterData(); // Initialize filtered data with all data
     });
   }
 
   void _filterData() {
+    // Example filter: select rows where the second column (index 1) is "value"
     setState(() {
       _filteredData1 =
-          _data3
+          _data
               .where(
                 (row) =>
-                    row.nbrID == nbrValue &&
-                    row.routerID == rtrValue &&
-                    row.areaID == areaValue &&
-                    row.IPversion == IPversionalue,
+                    row[5] == nbrValue &&
+                    row[8] == rtrValue &&
+                    row[7] == areaValue,
                 // (nbrValue == 'Neighbour Id')
                 //     ? row[5] == nbrId
                 //     : row[5] == nbrValue && (rtrValue == 'Router Id')
-                //     ? row[7] == routerID
+                //     ? row[7] == rtrId
                 //     : row[7] == rtrValue && (areaValue == 'Area Id')
                 //     ? row[8] == areaId
                 //     : row[8] == areaValue,
-                // (IPversion == 'IP Version ') ? row[9] == IPversion : row[9] == IPversionalue &&
+                // (ipV == 'IP Version ') ? row[9] == ipV : row[9] == ipValue &&
               )
               .toList();
     });
   }
 
   @override
-  void initState() {
-    super.initState();
-    _loadJSON();
-    _loadJSON2();
-    _loadJSON3();
-  }
-
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.secondary,
@@ -186,103 +75,75 @@ class _StableNbrsState extends State<StableNbrs> {
         ),
         backgroundColor: AppColors.primary,
       ),
-      body: Row(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 35, left: 10),
-            child: Column(
+      body: Padding(
+        padding: const EdgeInsets.all(25),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Column(
               mainAxisAlignment: MainAxisAlignment.start,
-
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                ElevatedButton(
-                  onPressed: () {
-                    table = 3;
-                    setState(() {
-                      _loadJSON3;
-                    });
-                    // Handle login action
-                  },
-                  style: ElevatedButton.styleFrom(
-                    foregroundColor: Color.fromARGB(255, 1, 169, 130),
-                    backgroundColor: Colors.white,
-                    //minimumSize: Size(128, 40),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 80,
-                      vertical: 16,
-                    ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
-                  child: const Text(
-                    'Logs',
-                    style: TextStyle(fontSize: 16, fontFamily: 'Readex Pro'),
+                Text(
+                  "Network\nAnalysis",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 36,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'MetricHPE',
                   ),
                 ),
-                const SizedBox(height: 20),
-                ElevatedButton(
-                  onPressed: () {
-                    table = 1;
-                    setState(() {
-                      _loadJSON;
-                    });
-                    // Handle login action
-                  },
-                  style: ElevatedButton.styleFrom(
-                    foregroundColor: Color.fromARGB(255, 1, 169, 130),
-                    backgroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 32,
-                      vertical: 16,
-                    ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
-                  child: const Text(
-                    'Stable Neighbours',
-                    style: TextStyle(fontSize: 16, fontFamily: 'Readex Pro'),
+                const SizedBox(height: 25),
+                Text(
+                  "Enter your query here",
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.white,
+                    fontFamily: 'MetricHPE',
                   ),
                 ),
-                const SizedBox(height: 20),
-                ElevatedButton(
-                  onPressed: () {
-                    table = 2;
-                    setState(() {
-                      _loadJSON2;
-                    });
-                    // Handle login action
-                  },
-                  style: ElevatedButton.styleFrom(
-                    foregroundColor: Color.fromARGB(255, 1, 169, 130),
-                    backgroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 24,
-                      vertical: 16,
+                const SizedBox(height: 5),
+                SizedBox(
+                  width: 288,
+                  height: 144,
+                  child: TextField(
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontFamily: 'MetricHPE',
                     ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
+                    cursorHeight: 16,
+                    maxLines: 5,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.white, width: 2),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
                     ),
-                  ),
-                  child: const Text(
-                    'Unstable Neighbours',
-                    style: TextStyle(fontSize: 16, fontFamily: 'Readex Pro'),
                   ),
                 ),
+                SizedBox(height: 25),
+                Text(
+                  "Query results",
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: Colors.white,
+                    fontFamily: 'MetricHPE',
+                  ),
+                ),
+                const SizedBox(height: 10),
+                //ListViewBuilder for scrollable results
               ],
             ),
-          ),
-          //const SizedBox(width: 20),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 25),
-            child: Column(
+            Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(left: 10),
+                  padding: const EdgeInsets.only(left: 25),
                   child: Container(
                     height: 57,
-                    width: 1290,
+                    width: 1170,
                     decoration: BoxDecoration(
                       color: AppColors.primary,
                       borderRadius: BorderRadius.circular(8),
@@ -407,44 +268,44 @@ class _StableNbrsState extends State<StableNbrs> {
                               underline: Container(),
                             ),
                           ),
-                          const SizedBox(width: 10),
-                          Container(
-                            height: 38,
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            padding: const EdgeInsets.symmetric(horizontal: 10),
-                            child: DropdownButton(
-                              items:
-                                  IPversion.map((String item4) {
-                                    return DropdownMenuItem(
-                                      value: item4,
-                                      child: Text(item4),
-                                    );
-                                  }).toList(),
-                              onChanged: (String? newIPversionalue) {
-                                setState(() {
-                                  IPversionalue = newIPversionalue!;
-                                  ipAdd = newIPversionalue;
-                                });
-                              },
-                              value: IPversionalue,
-                              borderRadius: BorderRadius.circular(8),
-                              dropdownColor:
-                                  Colors
-                                      .white, //const Color.fromARGB( 226,54,54,57),
-                              style: TextStyle(
-                                color: AppColors.primary,
-                                fontSize: 16,
-                                fontFamily: 'MetricHPE',
-                              ),
-                              underline: Container(),
-                            ),
-                          ),
+                          // const SizedBox(width: 10),
+                          // Container(
+                          //   height: 38,
+                          //   decoration: BoxDecoration(
+                          //     color: Colors.white,
+                          //     borderRadius: BorderRadius.circular(8),
+                          //   ),
+                          //   padding: const EdgeInsets.symmetric(horizontal: 10),
+                          //   child: DropdownButton(
+                          //     items:
+                          //         ipV.map((String item4) {
+                          //           return DropdownMenuItem(
+                          //             value: item4,
+                          //             child: Text(item4),
+                          //           );
+                          //         }).toList(),
+                          //     onChanged: (String? newIpValue) {
+                          //       setState(() {
+                          //         ipValue = newIpValue!;
+                          //         ipAdd = newIpValue;
+                          //       });
+                          //     },
+                          //     value: ipValue,
+                          //     borderRadius: BorderRadius.circular(8),
+                          //     dropdownColor:
+                          //         Colors
+                          //             .white, //const Color.fromARGB( 226,54,54,57),
+                          //     style: TextStyle(
+                          //       color: AppColors.primary,
+                          //       fontSize: 16,
+                          //       fontFamily: 'MetricHPE',
+                          //     ),
+                          //     underline: Container(),
+                          //   ),
+                          // ),
                           const SizedBox(width: 10),
                           ElevatedButton(
-                            onPressed: _loadJSON,
+                            onPressed: _loadCSV,
                             style: ElevatedButton.styleFrom(
                               backgroundColor: AppColors.secondary,
                               foregroundColor: Colors.white,
@@ -474,22 +335,31 @@ class _StableNbrsState extends State<StableNbrs> {
                 //CustomScrollView
                 SingleChildScrollView(
                   child: Padding(
-                    padding: const EdgeInsets.only(left: 10),
+                    padding: const EdgeInsets.only(left: 25),
                     child: Container(
                       decoration: BoxDecoration(
                         color: AppColors.primary,
                         borderRadius: BorderRadius.circular(8),
                       ),
                       height: 551,
-                      width: 1290,
-                      child: _buildTable(),
+                      width: 1168,
+                      // child: TableW(
+                      //   nbrValue == 'Neighbour Id' &&
+                      //           areaValue == 'Area Id' &&
+                      //           rtrValue == 'Router Id'
+                      //       ? _data
+                      //       : _filteredData1,
+                      //   areaValue,
+                      //   nbrValue,
+                      //   rtrValue,
+                      // ),
                     ),
                   ),
                 ),
               ],
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hpe_work/data/dropdown_vals.dart';
 import 'package:csv/csv.dart';
 import 'package:flutter/services.dart';
-import 'package:hpe_work/widgets.dart/table.dart';
+//import 'package:hpe_work/widgets.dart/table.dart';
 import 'package:hpe_work/widgets.dart/ui_colors.dart';
 
 class Analytics extends StatefulWidget {
