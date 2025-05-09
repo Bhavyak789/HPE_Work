@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:hpe_work/data/dropdown_vals.dart';
+import 'package:hpe_work/data/dropdown_vals.dart';
 import 'package:hpe_work/data/model.dart';
 import 'package:hpe_work/data/model2.dart';
 import 'package:hpe_work/widgets.dart/table2.dart';
 import 'package:hpe_work/widgets.dart/table.dart';
 import 'package:hpe_work/widgets.dart/table3.dart';
-
 import 'package:hpe_work/widgets.dart/ui_colors.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -22,12 +22,12 @@ class _StableNbrsState extends State<StableNbrs> {
   List<LogData> _data2 = [];
   List<LogData2> _data3 = [];
 
-  List<LogData2> _filteredData1 = [];
+  // List<LogData2> _filteredData1 = [];
   int table = 3;
-  final String serverUrl = 'localhost:3000';
+  final String serverUrl = 'tricks-appendix-nirvana-decimal.trycloudflare.com';
 
   String nbrValue = nbrId[0];
-  String rtrValue = routerID[0];
+  String rtrValue = routerId[0];
   String areaValue = areaId[0];
   String IPversionalue = IPversion[0];
 
@@ -36,30 +36,50 @@ class _StableNbrsState extends State<StableNbrs> {
   String? areaAdd;
   String? ipAdd;
 
+  void initState() {
+    super.initState();
+    _loadJSON;
+    _loadJSON2;
+    _loadJSON3;
+  }
+
   Widget _buildTable() {
     if (table == 2) {
       return TableW3(_data2);
     } else if (table == 1) {
       return TableW2(_data);
     } else {
-      return TableW(
-        nbrValue == 'Neighbour Id' &&
-                areaValue == 'Area Id' &&
-                rtrValue == 'Router Id'
-            ? _data3
-            : _filteredData1,
-      );
+      return TableW(_data3);
+      // return TableW(
+      //   nbrValue == 'Neighbour Id' &&
+      //           areaValue == 'Area Id' &&
+      //           rtrValue == 'Router Id' &&
+      //           IPversionalue == 'IP Version'
+      //       ? _data3
+      //       : _filteredData1,
+      // );
     }
   }
 
+  // void _sendJSON() async {
+
+  // }
+
   void _loadJSON() async {
     final url = Uri.http(serverUrl, 'stability');
-
-    final response = await http.get(url);
-
+    //final response = await http.get(url);
+    final response = await http.post(
+      url,
+      headers: {'Content-Type': 'application/json'},
+      body: json.encode({
+        'nbrID': nbrValue,
+        'routerID': rtrValue,
+        'areaID': areaValue,
+        'IPversion': IPversionalue,
+      }),
+    );
     final List<dynamic> _Tempdata = json.decode(response.body);
     final List<LogData> _Loaddata = [];
-
     for (final item in _Tempdata) {
       _Loaddata.add(
         LogData(
@@ -67,27 +87,36 @@ class _StableNbrsState extends State<StableNbrs> {
           nbrID: item['nbrID'] ?? "-",
           areaID: item['areaID'] ?? "-",
           IPversion: item['IPversion'] ?? "-",
-          Down: item['Down'] ?? -1,
-          Full: item['Full'] ?? -1,
+          DownAvg: item['DownAvg'] ?? 0,
+          FullAvg: item['FullAvg'] ?? 0,
         ),
       );
     }
+    print('Json1');
+    print(_Loaddata);
 
     setState(() {
       _data = _Loaddata;
+      //_sendJSON();
       //_filterData();
     });
   }
 
   void _loadJSON2() async {
     final url = Uri.http(serverUrl, 'unstability');
-
-    final response = await http.get(url);
-
+    //final response = await http.get(url);
+    final response = await http.post(
+      url,
+      headers: {'Content-Type': 'application/json'},
+      body: json.encode({
+        'nbrID': nbrValue,
+        'routerID': rtrValue,
+        'areaID': areaValue,
+        'IPversion': IPversionalue,
+      }),
+    );
     final List<dynamic> _Tempdata = json.decode(response.body);
-
     final List<LogData> _Loaddata = [];
-
     for (final item in _Tempdata) {
       _Loaddata.add(
         LogData(
@@ -95,14 +124,17 @@ class _StableNbrsState extends State<StableNbrs> {
           nbrID: item['nbrID'] ?? "-",
           areaID: item['areaID'] ?? "-",
           IPversion: item['IPversion'] ?? "-",
-          Down: item['Down'] ?? -1,
-          Full: item['Full'] ?? -1,
+          DownAvg: item['DownAvg'] ?? 0,
+          FullAvg: item['FullAvg'] ?? 0,
         ),
       );
     }
+    print('Json2');
+    print(_Loaddata);
 
     setState(() {
       _data2 = _Loaddata;
+      //_sendJSON();
       //_filterData();
     });
   }
@@ -110,12 +142,25 @@ class _StableNbrsState extends State<StableNbrs> {
   void _loadJSON3() async {
     final url = Uri.http(serverUrl, 'filter');
 
-    final response = await http.get(url);
+    final response = await http.post(
+      url,
+      headers: {'Content-Type': 'application/json'},
+      body: json.encode({
+        'nbrID': nbrValue,
+        'routerID': rtrValue,
+        'areaID': areaValue,
+        'IPversion': IPversionalue,
+      }),
+    );
+    // print('Json3');
+    // print(response.statusCode);
 
+    // print('Fetching data from URL: $url');
+    // print('Response status: ${response.statusCode}');
+    //print('Response body: ${response.body}');
+    //final response = await http.get(url);
     final List<dynamic> _Tempdata = json.decode(response.body);
-
     final List<LogData2> _Loaddata = [];
-
     for (final item in _Tempdata) {
       _Loaddata.add(
         LogData2(
@@ -123,55 +168,22 @@ class _StableNbrsState extends State<StableNbrs> {
           nbrID: item['nbrID'] ?? "-",
           areaID: item['areaID'] ?? "-",
           IPversion: item['IPversion'] ?? "-",
-          Down: item['Down'] ?? -1,
-          Full: item['Full'] ?? -1,
-          Attempt: item['Attempt'] ?? -1,
-          Init: item['Init'] ?? -1,
-          TwoWay: item['TwoWay'] ?? -1,
-          Exstart: item['Exstart'] ?? -1,
-          Exchange: item['Exchange'] ?? -1,
-          Loading: item['Loading'] ?? -1,
+          DownAvg: item['DownAvg'] ?? 0,
+          FullAvg: item['FullAvg'] ?? 0,
+          Init: item['Init'] ?? 0,
         ),
       );
     }
 
+    //print(_Tempdata);
+
     setState(() {
       _data3 = _Loaddata;
-      _filterData;
-    });
-  }
-
-  void _filterData() {
-    setState(() {
-      _filteredData1 =
-          _data3
-              .where(
-                (row) =>
-                    row.nbrID == nbrValue &&
-                    row.routerID == rtrValue &&
-                    row.areaID == areaValue &&
-                    row.IPversion == IPversionalue,
-                // (nbrValue == 'Neighbour Id')
-                //     ? row[5] == nbrId
-                //     : row[5] == nbrValue && (rtrValue == 'Router Id')
-                //     ? row[7] == routerID
-                //     : row[7] == rtrValue && (areaValue == 'Area Id')
-                //     ? row[8] == areaId
-                //     : row[8] == areaValue,
-                // (IPversion == 'IP Version ') ? row[9] == IPversion : row[9] == IPversionalue &&
-              )
-              .toList();
+      //initState();
     });
   }
 
   @override
-  void initState() {
-    super.initState();
-    _loadJSON();
-    _loadJSON2();
-    _loadJSON3();
-  }
-
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.secondary,
@@ -347,7 +359,7 @@ class _StableNbrsState extends State<StableNbrs> {
                             padding: const EdgeInsets.symmetric(horizontal: 10),
                             child: DropdownButton(
                               items:
-                                  routerID.map((String item2) {
+                                  routerId.map((String item2) {
                                     return DropdownMenuItem(
                                       value: item2,
                                       child: Text(item2),

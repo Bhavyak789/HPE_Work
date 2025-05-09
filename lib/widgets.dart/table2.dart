@@ -72,8 +72,8 @@ List<DataRow> _createRow(List<LogData> data) {
         DataCell(Text(data[index].nbrID.toString())),
         DataCell(Text(data[index].areaID.toString())),
         DataCell(Text(data[index].IPversion.toString())),
-        DataCell(Text(data[index].Full.toString())),
-        DataCell(Text(data[index].Down.toString())),
+        DataCell(Text(data[index].FullAvg.toString())),
+        DataCell(Text(data[index].DownAvg.toString())),
       ],
     );
   });

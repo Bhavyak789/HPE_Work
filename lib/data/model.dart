@@ -3,16 +3,22 @@ class LogData {
   final String? routerID;
   final String? areaID;
   final String? IPversion;
-  final double? Down;
-  final double? Full;
+  final double? DownAvg;
+  final double? FullAvg;
+  final double? FullSD;
+  final double? avgInitToFullData;
+  final double? FullBelowMeanCnt;
 
   LogData({
     this.nbrID,
     this.routerID,
     this.areaID,
     this.IPversion,
-    this.Down,
-    this.Full,
+    this.DownAvg,
+    this.FullAvg,
+    this.FullBelowMeanCnt,
+    this.FullSD,
+    this.avgInitToFullData,
   });
 
   factory LogData.fromJson(Map<String, dynamic> json) {
@@ -21,8 +27,13 @@ class LogData {
       routerID: json['routerID'] ?? "-",
       areaID: json['areaID'] ?? "-",
       IPversion: json['IPversion'] ?? "-",
-      Down: json['Down'] ?? -1,
-      Full: json['Full'] ?? -1,
+      DownAvg: json['DownAvg'] ?? 0,
+      FullAvg: json['FullAvg'] ?? 0,
+      FullBelowMeanCnt:
+          json['FullBelowMeanCnt'] ??
+          0, //No. of times full val goes below mean val
+      FullSD: json['FullSD'] ?? 0, // std deviation
+      avgInitToFullData: json['avgInitToFullData'] ?? 0, //Avg Init to full time
     );
   }
 }

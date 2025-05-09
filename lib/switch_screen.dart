@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hpe_work/data/dropdown_vals.dart';
 import 'package:hpe_work/screens/login_page.dart';
 //import 'package:hpe_work/screens/analytics.dart';
 import 'package:hpe_work/screens/stable_nbrs.dart';
@@ -33,6 +34,7 @@ class _SwitchScreen extends State<SwitchScreen> {
 
     if (activeScr == 'analysisScreen') {
       screen = StableNbrs();
+      //fetchUniq().fetchList();
     }
 
     // if (activeScr == 'analysisScreen') {
