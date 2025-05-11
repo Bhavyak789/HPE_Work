@@ -9,7 +9,7 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(226, 54, 54, 57),
+      backgroundColor: Colors.white, //const Color.fromARGB(226, 54, 54, 57),
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 1, 169, 130),
         title: Row(
@@ -46,7 +46,7 @@ class LoginPage extends StatelessWidget {
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.only(top: 20, left: 190),
+        padding: const EdgeInsets.symmetric(horizontal: 120),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -68,7 +68,7 @@ class LoginPage extends StatelessWidget {
                 fontSize: 22,
                 fontFamily: 'Readex Pro',
                 fontWeight: FontWeight.bold,
-                color: Colors.white,
+                color: Colors.black,
               ),
             ),
             const SizedBox(height: 20),
@@ -77,7 +77,7 @@ class LoginPage extends StatelessWidget {
               style: TextStyle(
                 fontSize: 16,
                 fontFamily: 'Readex Pro',
-                color: Colors.white,
+                color: Colors.black,
               ),
             ),
             const SizedBox(height: 10),
@@ -88,10 +88,10 @@ class LoginPage extends StatelessWidget {
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  hintText: 'username',
+                  hintText: 'Username',
                   hintStyle: const TextStyle(
                     fontFamily: 'Readex Pro',
-                    color: Colors.white54,
+                    color: Color.fromARGB(137, 23, 22, 22),
                   ),
                   contentPadding: const EdgeInsets.symmetric(horizontal: 16),
                 ),
@@ -103,7 +103,7 @@ class LoginPage extends StatelessWidget {
               style: TextStyle(
                 fontSize: 16,
                 fontFamily: 'Readex Pro',
-                color: Colors.white,
+                color: Colors.black,
               ),
             ),
             const SizedBox(height: 10),
@@ -115,10 +115,10 @@ class LoginPage extends StatelessWidget {
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  hintText: 'password',
+                  hintText: 'Password',
                   hintStyle: const TextStyle(
                     fontFamily: 'Readex Pro',
-                    color: Colors.white54,
+                    color: Color.fromARGB(137, 23, 22, 22),
                   ),
                   contentPadding: const EdgeInsets.symmetric(horizontal: 16),
                 ),

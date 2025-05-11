@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:hpe_work/data/dropdown_vals.dart';
-import 'package:hpe_work/screens/login_page.dart';
+import 'package:hpe_work/screens/login_Pg2.dart';
 //import 'package:hpe_work/screens/analytics.dart';
-import 'package:hpe_work/screens/stable_nbrs.dart';
+import 'package:hpe_work/screens/stable_nbrs2.dart';
+// import 'package:hpe_work/dumps/stable_nbrs.dart';
 
 class SwitchScreen extends StatefulWidget {
   const SwitchScreen({super.key});

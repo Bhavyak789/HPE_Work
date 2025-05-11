@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:hpe_work/data/dropdown_vals.dart';
-import 'package:hpe_work/data/dropdown_vals.dart';
 import 'package:hpe_work/data/model.dart';
-import 'package:hpe_work/data/model2.dart';
-import 'package:hpe_work/widgets.dart/table2.dart';
-import 'package:hpe_work/widgets.dart/table.dart';
-import 'package:hpe_work/widgets.dart/table3.dart';
+import 'package:hpe_work/data/model_all.dart';
+import 'package:hpe_work/widgets.dart/table_stable.dart';
+import 'package:hpe_work/widgets.dart/table_all.dart';
+import 'package:hpe_work/widgets.dart/table_unstable.dart';
 import 'package:hpe_work/widgets.dart/ui_colors.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -24,32 +23,35 @@ class _StableNbrsState extends State<StableNbrs> {
 
   // List<LogData2> _filteredData1 = [];
   int table = 3;
-  final String serverUrl = 'tricks-appendix-nirvana-decimal.trycloudflare.com';
+  final String serverUrl = 'neil-dinner-advise-germany.trycloudflare.com';
 
-  String nbrValue = nbrId[0];
-  String rtrValue = routerId[0];
-  String areaValue = areaId[0];
-  String IPversionalue = IPversion[0];
+  String nbrValue = nbrId[1];
+  String rtrValue = routerId[1];
+  String areaValue = areaId[1];
+  String IPversionalue = IPversion[1];
 
   String? nbrAdd;
   String? rtrAdd;
   String? areaAdd;
   String? ipAdd;
 
-  void initState() {
-    super.initState();
-    _loadJSON;
-    _loadJSON2;
-    _loadJSON3;
-  }
+  // void initState() {
+  //   super.initState();
+  //   _loadJSON;
+  //   _loadJSON2;
+  //   _loadJSON3;
+  // }
 
   Widget _buildTable() {
     if (table == 2) {
-      return TableW3(_data2);
+      _loadJSON2();
+      return TableW3(_data2); //Unstable Data
     } else if (table == 1) {
-      return TableW2(_data);
+      _loadJSON();
+      return TableW2(_data); //Stable data
     } else {
-      return TableW(_data3);
+      _loadJSON3();
+      return TableW(_data3); //All data
       // return TableW(
       //   nbrValue == 'Neighbour Id' &&
       //           areaValue == 'Area Id' &&
@@ -66,6 +68,7 @@ class _StableNbrsState extends State<StableNbrs> {
   // }
 
   void _loadJSON() async {
+    //Stable Data
     final url = Uri.http(serverUrl, 'stability');
     //final response = await http.get(url);
     final response = await http.post(
@@ -89,11 +92,14 @@ class _StableNbrsState extends State<StableNbrs> {
           IPversion: item['IPversion'] ?? "-",
           DownAvg: item['DownAvg'] ?? 0,
           FullAvg: item['FullAvg'] ?? 0,
+          FullSD: item['FullSD'],
+          avgInitToFullTime: item['avgInitToFullTime'],
+          FullBelowMeanCnt: item['FullBelowMeanCnt'],
         ),
       );
     }
-    print('Json1');
-    print(_Loaddata);
+    // print('Json1');
+    // print(_Loaddata);
 
     setState(() {
       _data = _Loaddata;
@@ -103,6 +109,7 @@ class _StableNbrsState extends State<StableNbrs> {
   }
 
   void _loadJSON2() async {
+    //Unstable Data
     final url = Uri.http(serverUrl, 'unstability');
     //final response = await http.get(url);
     final response = await http.post(
@@ -129,8 +136,8 @@ class _StableNbrsState extends State<StableNbrs> {
         ),
       );
     }
-    print('Json2');
-    print(_Loaddata);
+    // print('Json2');
+    // print(_Loaddata);
 
     setState(() {
       _data2 = _Loaddata;
@@ -140,6 +147,7 @@ class _StableNbrsState extends State<StableNbrs> {
   }
 
   void _loadJSON3() async {
+    //All data
     final url = Uri.http(serverUrl, 'filter');
 
     final response = await http.post(
@@ -170,7 +178,8 @@ class _StableNbrsState extends State<StableNbrs> {
           IPversion: item['IPversion'] ?? "-",
           DownAvg: item['DownAvg'] ?? 0,
           FullAvg: item['FullAvg'] ?? 0,
-          Init: item['Init'] ?? 0,
+          InitAvg: item['InitAvg'],
+          avgInitToFullTime: item['avgInitToFullTime'],
         ),
       );
     }
@@ -456,12 +465,17 @@ class _StableNbrsState extends State<StableNbrs> {
                           ),
                           const SizedBox(width: 10),
                           ElevatedButton(
-                            onPressed: _loadJSON,
+                            onPressed: () {
+                              nbrValue = nbrId[1];
+                              rtrValue = routerId[1];
+                              areaValue = areaId[1];
+                              IPversionalue = IPversion[1];
+                            },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: AppColors.secondary,
                               foregroundColor: Colors.white,
                               padding: const EdgeInsets.symmetric(
-                                horizontal: 40,
+                                horizontal: 25,
                                 vertical: 16,
                               ),
                               shape: RoundedRectangleBorder(
@@ -469,7 +483,7 @@ class _StableNbrsState extends State<StableNbrs> {
                               ),
                             ),
                             child: Text(
-                              'Filter',
+                              'Clear Filter',
                               style: TextStyle(
                                 fontSize: 16,
                                 fontFamily: 'Readex Pro',

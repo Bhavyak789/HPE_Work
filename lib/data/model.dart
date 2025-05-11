@@ -6,7 +6,7 @@ class LogData {
   final double? DownAvg;
   final double? FullAvg;
   final double? FullSD;
-  final double? avgInitToFullData;
+  final double? avgInitToFullTime;
   final double? FullBelowMeanCnt;
 
   LogData({
@@ -18,7 +18,7 @@ class LogData {
     this.FullAvg,
     this.FullBelowMeanCnt,
     this.FullSD,
-    this.avgInitToFullData,
+    this.avgInitToFullTime,
   });
 
   factory LogData.fromJson(Map<String, dynamic> json) {
@@ -29,11 +29,11 @@ class LogData {
       IPversion: json['IPversion'] ?? "-",
       DownAvg: json['DownAvg'] ?? 0,
       FullAvg: json['FullAvg'] ?? 0,
-      FullBelowMeanCnt:
-          json['FullBelowMeanCnt'] ??
-          0, //No. of times full val goes below mean val
-      FullSD: json['FullSD'] ?? 0, // std deviation
-      avgInitToFullData: json['avgInitToFullData'] ?? 0, //Avg Init to full time
+      FullBelowMeanCnt: json['FullBelowMeanCnt'], //?? 0,
+      //No. of times full val goes below mean val
+      FullSD: json['FullSD'], //?? -1, // std deviation
+      avgInitToFullTime:
+          json['avgInitToFullTime'], // ?? 0, //Avg Init to full time
     );
   }
 }
