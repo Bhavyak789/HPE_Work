@@ -7,7 +7,7 @@
 // final IPversion = ['IPv4', 'IPv6'];
 
 final routerId = [
-  'Router ID',
+  //'Router ID',
   '',
   '2.2.2.2',
   '22.2.2.2',
@@ -20,12 +20,18 @@ final routerId = [
   '192.168.100.1',
 ];
 
-final areaId = ['Area ID', '', '0.0.0.0', '0.0.0.1'];
+final areaId = [
+  //'Area ID',
+  '', '0.0.0.0', '0.0.0.1',
+];
 
-final IPversion = ['IP Version', '', 'IPv4', 'IPv6'];
+final IPversion = [
+  //'IP Version',
+  '', 'IPv4', 'IPv6',
+];
 
 final nbrId = [
-  'Neighbour ID',
+  // 'Neighbour ID',
   '',
   'FE80::800:901:41C:EED1',
   '10.10.10.3',

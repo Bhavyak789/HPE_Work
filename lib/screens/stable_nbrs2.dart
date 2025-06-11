@@ -1,3 +1,4 @@
+//import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:hpe_work/data/dropdown_vals.dart';
 import 'package:hpe_work/data/model.dart';
@@ -24,12 +25,12 @@ class _StableNbrsState extends State<StableNbrs> {
   // List<LogData2> _filteredData1 = [];
   int table = 3;
   final String serverUrl =
-      'cgi-boxing-institutions-governing.trycloudflare.com';
+      'requirements-murphy-wishlist-nine.trycloudflare.com';
 
-  String nbrValue = nbrId[1];
-  String rtrValue = routerId[1];
-  String areaValue = areaId[1];
-  String IPversionalue = IPversion[1];
+  String nbrValue = nbrId[0];
+  String rtrValue = routerId[0];
+  String areaValue = areaId[0];
+  String IPversionalue = IPversion[0];
 
   String? nbrAdd;
   String? rtrAdd;
@@ -135,6 +136,8 @@ class _StableNbrsState extends State<StableNbrs> {
           avgInitToFullTime: item['avgInitToFullTime'],
           DownAvg: item['DownAvg'] ?? 0,
           FullAvg: item['FullAvg'] ?? 0,
+          initToFullTimeAboveMeanCnt:
+              item['initToFullTimeAboveMeanCnt'], //?? 0,
         ),
       );
     }
@@ -250,12 +253,22 @@ class _StableNbrsState extends State<StableNbrs> {
                           borderRadius: BorderRadius.circular(10),
                         ),
                         padding: const EdgeInsets.symmetric(horizontal: 10),
+                        // child: DropdownSearch<String>(
+                        //   key: Key('nbrId'),
+                        //   items: (filter, loadProps) => nbrId,
+                        //   decoratorProps: DropDownDecoratorProps(
+                        //     decoration: InputDecoration(labelText: "Nbr Id"),
+                        //   ),
+                        // ),
                         child: DropdownButton(
                           items:
                               nbrId.map((String item1) {
                                 return DropdownMenuItem(
                                   value: item1,
-                                  child: Text(item1),
+                                  child:
+                                      item1 == ''
+                                          ? Text("Neighbour ID")
+                                          : Text(item1),
                                 );
                               }).toList(),
                           onChanged: (String? newNbrValue) {
@@ -290,7 +303,10 @@ class _StableNbrsState extends State<StableNbrs> {
                               routerId.map((String item2) {
                                 return DropdownMenuItem(
                                   value: item2,
-                                  child: Text(item2),
+                                  child:
+                                      item2 == ''
+                                          ? Text("Router ID")
+                                          : Text(item2),
                                 );
                               }).toList(),
                           onChanged: (String? newRtrValue) {
@@ -325,7 +341,10 @@ class _StableNbrsState extends State<StableNbrs> {
                               areaId.map((String item3) {
                                 return DropdownMenuItem(
                                   value: item3,
-                                  child: Text(item3),
+                                  child:
+                                      item3 == ''
+                                          ? Text('Area ID')
+                                          : Text(item3),
                                 );
                               }).toList(),
                           onChanged: (String? newAreaValue) {
@@ -360,7 +379,10 @@ class _StableNbrsState extends State<StableNbrs> {
                               IPversion.map((String item4) {
                                 return DropdownMenuItem(
                                   value: item4,
-                                  child: Text(item4),
+                                  child:
+                                      item4 == ''
+                                          ? Text('IP Version')
+                                          : Text(item4),
                                 );
                               }).toList(),
                           onChanged: (String? newIPversionalue) {
@@ -385,10 +407,10 @@ class _StableNbrsState extends State<StableNbrs> {
                       const SizedBox(width: 10),
                       ElevatedButton(
                         onPressed: () {
-                          nbrValue = nbrId[1];
-                          rtrValue = routerId[1];
-                          areaValue = areaId[1];
-                          IPversionalue = IPversion[1];
+                          nbrValue = nbrId[0];
+                          rtrValue = routerId[0];
+                          areaValue = areaId[0];
+                          IPversionalue = IPversion[0];
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: AppColors.primary,
