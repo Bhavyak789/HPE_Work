@@ -94,7 +94,8 @@ class _StableNbrsState extends State<StableNbrs> {
           FullAvg: item['FullAvg'] ?? 0,
           FullSD: item['FullSD'],
           avgInitToFullTime: item['avgInitToFullTime'],
-          FullBelowMeanCnt: item['FullBelowMeanCnt'],
+          numberOfTimesFullTimeGoesBelowMeanFullTime:
+              item['numberOfTimesFullTimeGoesBelowMeanFullTime'],
         ),
       );
     }

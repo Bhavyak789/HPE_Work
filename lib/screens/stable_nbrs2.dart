@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hpe_work/data/dropdown_vals.dart';
 import 'package:hpe_work/data/model.dart';
 import 'package:hpe_work/data/model_all.dart';
+import 'package:hpe_work/chatbot.dart';
 import 'package:hpe_work/widgets.dart/table_stable.dart';
 import 'package:hpe_work/widgets.dart/table_all.dart';
 import 'package:hpe_work/widgets.dart/table_unstable.dart';
@@ -24,8 +25,7 @@ class _StableNbrsState extends State<StableNbrs> {
 
   // List<LogData2> _filteredData1 = [];
   int table = 3;
-  final String serverUrl =
-      'requirements-murphy-wishlist-nine.trycloudflare.com';
+  final String serverUrl = 'seventh-ddr-argue-predicted.trycloudflare.com';
 
   String nbrValue = nbrId[0];
   String rtrValue = routerId[0];
@@ -92,11 +92,23 @@ class _StableNbrsState extends State<StableNbrs> {
           nbrID: item['nbrID'] ?? "-",
           areaID: item['areaID'] ?? "-",
           IPversion: item['IPversion'] ?? "-",
-          DownAvg: item['DownAvg'] ?? 0,
-          FullAvg: item['FullAvg'] ?? 0,
-          FullSD: item['FullSD'] ?? -1,
+          DownAvg:
+              (item['DownAvg'] is int)
+                  ? (item['DownAvg'] as int).toDouble()
+                  : (item['DownAvg'] ?? 0.0),
+          FullAvg:
+              (item['FullAvg'] is int)
+                  ? (item['FullAvg'] as int).toDouble()
+                  : (item['FullAvg'] ?? 0.0),
+          FullSD:
+              (item['FullSD'] is int)
+                  ? (item['FullSD'] as int).toDouble()
+                  : (item['FullSD'] ?? -1),
           avgInitToFullTime: item['avgInitToFullTime'], //?? 0,
-          FullBelowMeanCnt: item['FullBelowMeanCnt'], //?? 0,
+          numberOfTimesFullTimeGoesBelowMeanFullTime:
+              item['numberOfTimesFullTimeGoesBelowMeanFullTime'], //?? 0,    FullBelowMeanCnt
+          currentState: item['currentState'] ?? "-",
+          currentDateAndTime: item['currentDateAndTime'] ?? "-",
         ),
       );
     }
@@ -134,10 +146,18 @@ class _StableNbrsState extends State<StableNbrs> {
           areaID: item['areaID'] ?? "-",
           IPversion: item['IPversion'] ?? "-",
           avgInitToFullTime: item['avgInitToFullTime'],
-          DownAvg: item['DownAvg'] ?? 0,
-          FullAvg: item['FullAvg'] ?? 0,
-          initToFullTimeAboveMeanCnt:
-              item['initToFullTimeAboveMeanCnt'], //?? 0,
+          DownAvg:
+              (item['DownAvg'] is int)
+                  ? (item['DownAvg'] as int).toDouble()
+                  : (item['DownAvg'] ?? 0.0),
+          FullAvg:
+              (item['FullAvg'] is int)
+                  ? (item['FullAvg'] as int).toDouble()
+                  : (item['FullAvg'] ?? 0.0),
+          numberOfTimesInitToFullTimeGoesAboveMeanInitToFullTime: //initToFullTimeAboveMeanCnt
+              item['numberOfTimesInitToFullTimeGoesAboveMeanInitToFullTime'], //?? 0,
+          currentState: item['currentState'] ?? "-",
+          currentDateAndTime: item['currentDateAndTime'] ?? "-",
         ),
       );
     }
@@ -181,10 +201,21 @@ class _StableNbrsState extends State<StableNbrs> {
           nbrID: item['nbrID'] ?? "-",
           areaID: item['areaID'] ?? "-",
           IPversion: item['IPversion'] ?? "-",
-          DownAvg: item['DownAvg'] ?? 0,
-          FullAvg: item['FullAvg'] ?? 0,
-          InitAvg: item['InitAvg'] ?? 0,
-          avgInitToFullTime: item['avgInitToFullTime'], //?? 0,
+          DownAvg:
+              (item['DownAvg'] is int)
+                  ? (item['DownAvg'] as int).toDouble()
+                  : (item['DownAvg'] ?? 0.0),
+          FullAvg:
+              (item['FullAvg'] is int)
+                  ? (item['FullAvg'] as int).toDouble()
+                  : (item['FullAvg'] ?? 0.0),
+          InitAvg:
+              (item['InitAvg'] is int)
+                  ? (item['InitAvg'] as int).toDouble()
+                  : (item['InitAvg'] ?? 0.0),
+          avgInitToFullTime: item['avgInitToFullTime'],
+          currentState: item['currentState'] ?? "-",
+          currentDateAndTime: item['currentDateAndTime'] ?? "-",
         ),
       );
     }
@@ -197,11 +228,31 @@ class _StableNbrsState extends State<StableNbrs> {
     });
   }
 
+  void _chatOverlay() {
+    showModalBottomSheet(
+      constraints: const BoxConstraints(maxWidth: 900),
+      enableDrag: true,
+      backgroundColor: AppColors.secondary,
+      useSafeArea: true,
+      clipBehavior: Clip.antiAlias,
+      context: context,
+      builder: (ctx) => (chatbot()),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: _chatOverlay,
+        backgroundColor: AppColors.primary2,
+        child: const Icon(Icons.chat_bubble, color: Colors.white),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      //endDrawer: _chatOverlay(),
       backgroundColor: AppColors.secondary,
       appBar: AppBar(
+        //  automaticallyImplyLeading: false,
         title: const Text(
           'HPE Network Analytics',
           style: TextStyle(

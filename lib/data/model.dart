@@ -1,4 +1,6 @@
 class LogData {
+  final String? currentDateAndTime;
+  final String? currentState;
   final String? nbrID;
   final String? routerID;
   final String? areaID;
@@ -7,20 +9,23 @@ class LogData {
   final double? FullAvg;
   final double? FullSD;
   final double? avgInitToFullTime;
-  final double? FullBelowMeanCnt;
-  final double? initToFullTimeAboveMeanCnt;
+  final int? numberOfTimesFullTimeGoesBelowMeanFullTime;
+  final int?
+  numberOfTimesInitToFullTimeGoesAboveMeanInitToFullTime; //initToFullTimeAboveMeanCnt
 
   LogData({
+    this.currentDateAndTime,
+    this.currentState,
     this.nbrID,
     this.routerID,
     this.areaID,
     this.IPversion,
     this.DownAvg,
     this.FullAvg,
-    this.FullBelowMeanCnt,
+    this.numberOfTimesFullTimeGoesBelowMeanFullTime,
     this.FullSD,
     this.avgInitToFullTime,
-    this.initToFullTimeAboveMeanCnt,
+    this.numberOfTimesInitToFullTimeGoesAboveMeanInitToFullTime,
   });
 
   factory LogData.fromJson(Map<String, dynamic> json) {
@@ -29,14 +34,18 @@ class LogData {
       routerID: json['routerID'] ?? "-",
       areaID: json['areaID'] ?? "-",
       IPversion: json['IPversion'] ?? "-",
-      DownAvg: json['DownAvg'] ?? 0,
-      FullAvg: json['FullAvg'] ?? 0,
-      FullBelowMeanCnt: json['FullBelowMeanCnt'], //?? 0,
+      DownAvg: json['DownAvg'] ?? 0.0,
+      FullAvg: json['FullAvg'] ?? 0.0,
+      numberOfTimesFullTimeGoesBelowMeanFullTime:
+          json['numberOfTimesFullTimeGoesBelowMeanFullTime'], //?? 0,
       //No. of times full val goes below mean val
       FullSD: json['FullSD'], //?? -1, // std deviation
       avgInitToFullTime:
           json['avgInitToFullTime'], // ?? 0, //Avg Init to full time
-      initToFullTimeAboveMeanCnt: json['initToFullTimeAboveMeanCnt'], //?? 0,
+      numberOfTimesInitToFullTimeGoesAboveMeanInitToFullTime:
+          json['numberOfTimesInitToFullTimeGoesAboveMeanInitToFullTime'], //?? 0,
+      currentState: json['currentcurrentState'] ?? "-",
+      currentDateAndTime: json['currentDateAndTime'] ?? "-",
     );
   }
 }
