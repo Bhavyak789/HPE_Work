@@ -25,7 +25,7 @@ class _StableNbrsState extends State<StableNbrs> {
 
   // List<LogData2> _filteredData1 = [];
   int table = 3;
-  final String serverUrl = 'seventh-ddr-argue-predicted.trycloudflare.com';
+  final String serverUrl = 'bbs-fairy-ghost-raw.trycloudflare.com';
 
   String nbrValue = nbrId[0];
   String rtrValue = routerId[0];
@@ -109,6 +109,11 @@ class _StableNbrsState extends State<StableNbrs> {
               item['numberOfTimesFullTimeGoesBelowMeanFullTime'], //?? 0,    FullBelowMeanCnt
           currentState: item['currentState'] ?? "-",
           currentDateAndTime: item['currentDateAndTime'] ?? "-",
+          status: item['status'] ?? "-",
+          timeLeftOnCurrentState:
+              (item['timeLeftOnCurrentState'] is int)
+                  ? (item['timeLeftOnCurrentState'] as int).toDouble()
+                  : (item['timeLeftOnCurrentState'] ?? 0.0),
         ),
       );
     }

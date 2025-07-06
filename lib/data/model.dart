@@ -5,6 +5,8 @@ class LogData {
   final String? routerID;
   final String? areaID;
   final String? IPversion;
+  final String? status;
+  final double? timeLeftOnCurrentState; // Predicted Up Time
   final double? DownAvg;
   final double? FullAvg;
   final double? FullSD;
@@ -26,6 +28,8 @@ class LogData {
     this.FullSD,
     this.avgInitToFullTime,
     this.numberOfTimesInitToFullTimeGoesAboveMeanInitToFullTime,
+    this.status,
+    this.timeLeftOnCurrentState,
   });
 
   factory LogData.fromJson(Map<String, dynamic> json) {
@@ -40,12 +44,13 @@ class LogData {
           json['numberOfTimesFullTimeGoesBelowMeanFullTime'], //?? 0,
       //No. of times full val goes below mean val
       FullSD: json['FullSD'], //?? -1, // std deviation
-      avgInitToFullTime:
-          json['avgInitToFullTime'], // ?? 0, //Avg Init to full time
+      avgInitToFullTime: json['avgInitToFullTime'], //Avg Init to full time
       numberOfTimesInitToFullTimeGoesAboveMeanInitToFullTime:
           json['numberOfTimesInitToFullTimeGoesAboveMeanInitToFullTime'], //?? 0,
       currentState: json['currentcurrentState'] ?? "-",
       currentDateAndTime: json['currentDateAndTime'] ?? "-",
+      status: json['status'] ?? "-",
+      timeLeftOnCurrentState: json['timeLeftOnCurrentState'],
     );
   }
 }

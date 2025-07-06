@@ -9,71 +9,104 @@ class TableW extends StatelessWidget {
 
   final List<LogData2> _data;
 
-  // double predictedTime(int index) {
-  //   double leftTime;
+  // int predictedTime(int index) {
+  //   int leftTime;
   //   if (_data[index].currentDateAndTime != null &&
   //       _data[index].currentState.toString() == "Full") {
-  //     double remainingTime = (_data[index].FullAvg ?? 0.0);
-  //     DateTime time = DateTime.parse(
-  //       _data[index].currentDateAndTime.toString(),
-  //     );
-  //     double localMillisPrev = time.millisecondsSinceEpoch.toDouble();
-  //     double fullAvg = (remainingTime) * 1000;
+  //     int remainingTime;
+  //     double fullAvg = _data[index].FullAvg ?? 0.0;
+  //     //print("NbrID :  ${_data[index].nbrID}");
 
-  //     double localMillisNow = DateTime.now().millisecondsSinceEpoch.toDouble();
+  //     //print('AVG : $fullAvg');
 
-  //     remainingTime = localMillisNow - localMillisPrev;
-  //     leftTime = fullAvg - remainingTime;
-  //     return leftTime / 1000;
+  //     String currentDateTime = _data[index].currentDateAndTime.toString();
+  //     currentDateTime = currentDateTime.substring(
+  //       0,
+  //       currentDateTime.length - 2,
+  //     ); // Ensure the string is in UTC format
+  //     //print('Prev DateTime: $currentDateTime');
+  //     DateTime localDateTimePrev = DateTime.parse(currentDateTime);
+  //     // print('new Prev DateTime: $localDateTimePrev');
+  //     DateTime localDateTimeNow = DateTime.now().toLocal();
+  //     //print('Curren DateTime: $localDateTimeNow');
+  //     remainingTime =
+  //         (localDateTimeNow.difference(localDateTimePrev).inSeconds);
+  //     //.toInt();
+  //     //print('Remaining Time: $remainingTime seconds');
+  //     leftTime = ((fullAvg - remainingTime)).toInt();
+  //     // time2 = DateTime.fromMillisecondsSinceEpoch(
+  //     //   leftTime,
+  //     // ); // Convert seconds to milliseconds
+  //     //print('Left Time :$leftTime');
+  //     return leftTime;
   //   }
 
-  //   return 0.0;
+  //   return 0;
   // }
 
-  Color _getColor(int index) {
-    DateTime time = DateTime.parse(_data[index].currentDateAndTime.toString());
-    double localMillisPrev = time.millisecondsSinceEpoch.toDouble();
-    double localMillisNow = DateTime.now().millisecondsSinceEpoch.toDouble();
-    double temp = (_data[index].FullAvg ?? 0 - (_data[index].FullSD ?? 0));
-    if (_data[index].currentState.toString() == "Full") {
-      if (localMillisNow - localMillisPrev <= temp) {
-        return AppColors.Green;
-      } else if (localMillisNow - localMillisPrev <=
-          (_data[index].FullAvg ?? 0)) {
-        return AppColors.Yellow;
-      } else {
-        return AppColors.Red;
-      }
-    } else {
-      return AppColors.secondary; // Default color for other states
-    }
-  }
+  // Color _getColor(int index) {
+  //   String currentDateTime = _data[index].currentDateAndTime.toString();
+  //   currentDateTime = currentDateTime.substring(0, currentDateTime.length - 1);
+  //   DateTime localDateTimePrev = DateTime.parse(currentDateTime).toUtc();
+  //   DateTime localDateTimeNow = DateTime.now().toLocal();
+  //   double fullAvg = _data[index].FullAvg ?? 0.0; // Convert to milliseconds
+  //   int remainingTime =
+  //       (localDateTimePrev.difference(localDateTimeNow).inSeconds).toInt();
+  //   int leftTime = ((fullAvg - remainingTime)).toInt();
+  //   if (_data[index].currentState.toString() == "Full") {
+  //     if (leftTime <= fullAvg) {
+  //       return AppColors.Green;
+  //     } else if (leftTime > fullAvg) {
+  //       return AppColors.Yellow;
+  //     } else {
+  //       return AppColors.Red;
+  //     }
+  //   } else {
+  //     return AppColors.secondary; //grey  // Default color for other states
+  //   }
+  // }
+
+  // Color _getColor(int index) {
+  //   var status = _data[index].status;
+  //   if (status == 'Green')
+  //     return AppColors.Green;
+  //   else if (status == 'Yellow')
+  //     return AppColors.Yellow;
+  //   else if (status == 'Red')
+  //     return AppColors.Red;
+  //   else
+  //     return AppColors
+  //         .Gray; // Assuming status is a string like 'green', 'yellow', 'red'
+  // }
 
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.all(8),
-        child: DataTable(
-          headingRowColor: WidgetStateColor.resolveWith((callback) {
-            return Colors.white;
-          }),
-          columns: _createColumn(),
-          rows: _createRow(_data),
-          headingTextStyle: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-            fontFamily: 'MetricHPE',
-            color: Colors.black,
-          ),
-          dataTextStyle: const TextStyle(
-            fontSize: 16,
-            fontFamily: 'MetricHPE',
-            color: Colors.black,
-          ),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(8),
-            //color: AppColors.secondary, //Color.fromARGB(226, 54, 54, 57),
+      scrollDirection: Axis.horizontal,
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(8),
+          child: DataTable(
+            headingRowColor: WidgetStateColor.resolveWith((callback) {
+              return Colors.white;
+            }),
+            columns: _createColumn(),
+            rows: _createRow(_data),
+            headingTextStyle: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              fontFamily: 'MetricHPE',
+              color: Colors.black,
+            ),
+            dataTextStyle: const TextStyle(
+              fontSize: 16,
+              fontFamily: 'MetricHPE',
+              color: Colors.black,
+            ),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              //color: AppColors.secondary, //Color.fromARGB(226, 54, 54, 57),
+            ),
           ),
         ),
       ),
@@ -101,16 +134,19 @@ List<DataRow> _createRow(List<LogData2> data) {
   TableW tableW = TableW(data);
   return List.generate(data.length, (index) {
     return DataRow(
-      color: WidgetStateColor.resolveWith((callback) {
-        return tableW._getColor(index);
-      }),
-
+      // color: WidgetStateColor.resolveWith((callback) {
+      //   return tableW._getColor(index);
+      // }),
       cells: [
         DataCell(Text((index + 1).toString())),
         DataCell(Text(data[index].currentState.toString())),
         // DataCell(
-        //   Text((tableW.predictedTime(index)).toStringAsFixed(2)), //,
-        // ), // P
+        //   Text(
+        //     data[index].timeLeftOnCurrentState != null
+        //         ? data[index].timeLeftOnCurrentState!.toStringAsFixed(2)
+        //         : '0.00',
+        //   ),
+        // ),, // P
         //predicted up time
         DataCell(Text(data[index].nbrID.toString())),
         DataCell(Text(data[index].IPversion.toString())),
