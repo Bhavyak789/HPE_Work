@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hpe_work/widgets.dart/ui_colors.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:intl/intl.dart';
+// import 'package:intl/intl.dart';
 
 class chatbot extends StatefulWidget {
   const chatbot({super.key});
@@ -12,7 +12,7 @@ class chatbot extends StatefulWidget {
 }
 
 class _chatbotState extends State<chatbot> {
-  String chatUrl = 'bbs-fairy-ghost-raw.trycloudflare.com';
+  String chatUrl = 'harris-eddie-shorts-projected.trycloudflare.com';
   final ChatUser _currentUser = ChatUser(
     id: '1',
     firstName: 'You',
@@ -38,19 +38,15 @@ class _chatbotState extends State<chatbot> {
 
     // print('Fetching data from URL: $url');
     // print('Response status: ${response.statusCode}');
-    //print('Response body: ${response.body}');
-    //final response = await http.get(url);
+    // print('Response body: ${response.body}');
+    // final response = await http.get(url);
 
     final String _Tempdata = json.decode(response.body);
     print('Response data: $_Tempdata');
     setState(() {
       _messages.insert(
         0,
-        ChatMessage(
-          user: _chatBot,
-          createdAt: DateTime.now(),
-          text: _Tempdata, // Replace with the actual response text
-        ),
+        ChatMessage(user: _chatBot, createdAt: DateTime.now(), text: _Tempdata),
       );
     });
 
@@ -87,22 +83,18 @@ class _chatbotState extends State<chatbot> {
       constraints: const BoxConstraints.expand(),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        child:
-        // _messages.isEmpty
-        //     ? Column(
-        //       mainAxisAlignment: MainAxisAlignment.center,
-        //       children: [
-        //         const Text(
-        //           'No messages yet',
-        //           style: TextStyle(fontSize: 20),
-        //         ),
-        //       ],
-        //     )
-        //     :
-        DashChat(
+        child: DashChat(
           messageOptions: MessageOptions(
+            //showCurrentUserAvatar: true,
+            showOtherUsersAvatar: false,
             // top: ,
-            maxWidth: 650,
+            messageTextBuilder: (message, previousMessage, nextMessage) {
+              return Text(
+                message.text,
+                style: TextStyle(fontSize: 18, color: AppColors.secondary),
+              );
+            },
+            maxWidth: 750,
             // showTime: true,
             // timeFormat: DateFormat('hh:mm a'),
             containerColor: AppColors.primary,

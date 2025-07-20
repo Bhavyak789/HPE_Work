@@ -1,4 +1,5 @@
 class LogData {
+  final String? event;
   final String? currentDateAndTime;
   final String? currentState;
   final String? nbrID;
@@ -14,8 +15,11 @@ class LogData {
   final int? numberOfTimesFullTimeGoesBelowMeanFullTime;
   final int?
   numberOfTimesInitToFullTimeGoesAboveMeanInitToFullTime; //initToFullTimeAboveMeanCnt
+  final double? timePassedOnCurrentState;
 
   LogData({
+    this.timePassedOnCurrentState,
+    this.event,
     this.currentDateAndTime,
     this.currentState,
     this.nbrID,
@@ -51,6 +55,8 @@ class LogData {
       currentDateAndTime: json['currentDateAndTime'] ?? "-",
       status: json['status'] ?? "-",
       timeLeftOnCurrentState: json['timeLeftOnCurrentState'],
+      event: json['event'] ?? "-",
+      timePassedOnCurrentState: json['timePassedOnCurrentState'] ?? 0.0,
     );
   }
 }

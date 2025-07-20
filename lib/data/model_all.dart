@@ -1,4 +1,6 @@
 class LogData2 {
+  final String? event;
+  final String? status;
   final String? currentDateAndTime;
   final String? currentState;
   final String? nbrID;
@@ -11,8 +13,12 @@ class LogData2 {
   final double? FullSD;
   final double? avgInitToFullTime;
   final double? numberOfTimesFullTimeGoesBelowMeanFullTime;
+  final double? timePassedOnCurrentState;
 
   LogData2({
+    this.timePassedOnCurrentState,
+    this.event,
+    this.status,
     this.currentDateAndTime,
     this.currentState,
     this.nbrID,
@@ -43,7 +49,10 @@ class LogData2 {
           json['avgInitToFullTime'], //?? 0, //Avg Init to full time
       InitAvg: json['InitAvg'], //?? 0, //Init to full time
       currentState: json['currentcurrentState'] ?? "-",
+      status: json['status'] ?? "-",
       currentDateAndTime: json['currentDateAndTime'] ?? "-",
+      event: json['event'] ?? "-",
+      timePassedOnCurrentState: json['timePassedOnCurrentState'] ?? 0.0,
     );
   }
 }

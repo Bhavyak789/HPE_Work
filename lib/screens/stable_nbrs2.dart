@@ -25,7 +25,7 @@ class _StableNbrsState extends State<StableNbrs> {
 
   // List<LogData2> _filteredData1 = [];
   int table = 3;
-  final String serverUrl = 'bbs-fairy-ghost-raw.trycloudflare.com';
+  final String serverUrl = 'harris-eddie-shorts-projected.trycloudflare.com';
 
   String nbrValue = nbrId[0];
   String rtrValue = routerId[0];
@@ -37,12 +37,12 @@ class _StableNbrsState extends State<StableNbrs> {
   String? areaAdd;
   String? ipAdd;
 
-  // void initState() {
-  //   super.initState();
-  //   _loadJSON;
-  //   _loadJSON2;
-  //   _loadJSON3;
-  // }
+  void initState() {
+    super.initState();
+    _loadNbrID;
+    _loadRtrID;
+    _loadareaID;
+  }
 
   Widget _buildTable() {
     if (table == 2) {
@@ -68,6 +68,26 @@ class _StableNbrsState extends State<StableNbrs> {
   // void _sendJSON() async {
 
   // }
+
+  void _loadNbrID() async {
+    final url = Uri.http(serverUrl, 'nbrID');
+    final response = await http.get(url);
+    final List<String> nbrID = List<String>.from(
+      json.decode(response.body),
+    ); //json.decode(response.body);
+  }
+
+  void _loadRtrID() async {
+    final url = Uri.http(serverUrl, 'rtrID');
+    final response = await http.get(url);
+    final List<String> routerID = json.decode(response.body);
+  }
+
+  void _loadareaID() async {
+    final url = Uri.http(serverUrl, 'nbrID');
+    final response = await http.get(url);
+    final List<String> areaID = json.decode(response.body);
+  }
 
   void _loadJSON() async {
     //Stable Data
@@ -114,11 +134,16 @@ class _StableNbrsState extends State<StableNbrs> {
               (item['timeLeftOnCurrentState'] is int)
                   ? (item['timeLeftOnCurrentState'] as int).toDouble()
                   : (item['timeLeftOnCurrentState'] ?? 0.0),
+          event: item['event'] ?? "-",
+          timePassedOnCurrentState:
+              (item['timePassedOnCurrentState'] is int)
+                  ? (item['timePassedOnCurrentState'] as int).toDouble()
+                  : (item['timePassedOnCurrentState'] ?? 0.0),
         ),
       );
     }
     // print('Json1');
-    // print(_Loaddata);
+    //print(_Loaddata);
 
     setState(() {
       _data = _Loaddata;
@@ -163,6 +188,12 @@ class _StableNbrsState extends State<StableNbrs> {
               item['numberOfTimesInitToFullTimeGoesAboveMeanInitToFullTime'], //?? 0,
           currentState: item['currentState'] ?? "-",
           currentDateAndTime: item['currentDateAndTime'] ?? "-",
+          status: item['status'] ?? "-",
+          event: item['event'] ?? "-",
+          timePassedOnCurrentState:
+              (item['timePassedOnCurrentState'] is int)
+                  ? (item['timePassedOnCurrentState'] as int).toDouble()
+                  : (item['timePassedOnCurrentState'] ?? 0.0),
         ),
       );
     }
@@ -221,6 +252,12 @@ class _StableNbrsState extends State<StableNbrs> {
           avgInitToFullTime: item['avgInitToFullTime'],
           currentState: item['currentState'] ?? "-",
           currentDateAndTime: item['currentDateAndTime'] ?? "-",
+          status: item['status'] ?? "-",
+          event: item['event'] ?? "-",
+          timePassedOnCurrentState:
+              (item['timePassedOnCurrentState'] is int)
+                  ? (item['timePassedOnCurrentState'] as int).toDouble()
+                  : (item['timePassedOnCurrentState'] ?? 0.0),
         ),
       );
     }
@@ -235,7 +272,7 @@ class _StableNbrsState extends State<StableNbrs> {
 
   void _chatOverlay() {
     showModalBottomSheet(
-      constraints: const BoxConstraints(maxWidth: 900),
+      constraints: const BoxConstraints(maxWidth: 1100),
       enableDrag: true,
       backgroundColor: AppColors.secondary,
       useSafeArea: true,
@@ -276,7 +313,7 @@ class _StableNbrsState extends State<StableNbrs> {
           ),
         ),
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 110, vertical: 30),
+          padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 30),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -315,6 +352,41 @@ class _StableNbrsState extends State<StableNbrs> {
                         //   decoratorProps: DropDownDecoratorProps(
                         //     decoration: InputDecoration(labelText: "Nbr Id"),
                         //   ),
+                        // ),
+                        // child: SearchAnchor.bar(
+                        //   constraints: const BoxConstraints(maxWidth: 200),
+                        //   //barBackgroundColor: AppColors.Gray,
+                        //   //viewBackgroundColor: Colors.transparent,
+                        //   barLeading: Text(''),
+                        //   barHintText: 'Neighbour ID',
+                        //   suggestionsBuilder: (
+                        //     BuildContext context,
+                        //     SearchController controller,
+                        //   ) {
+                        //     final String input = controller.value.text;
+                        //     return nbrId
+                        //         .where(
+                        //           (String item) => item.toLowerCase().contains(
+                        //             input.toLowerCase(),
+                        //           ),
+                        //         )
+                        //         .map(
+                        //           (String item) => ListTile(
+                        //             title:
+                        //                 item == ''
+                        //                     ? Text("Neighbour ID")
+                        //                     : Text(item),
+                        //             onTap: () {
+                        //               controller.value = TextEditingValue(
+                        //                 text:
+                        //                     item == '' ? "Neighbour ID" : item,
+                        //               );
+                        //               controller.closeView(item);
+                        //             },
+                        //           ),
+                        //         )
+                        //         .toList();
+                        //   },
                         // ),
                         child: DropdownButton(
                           items:
@@ -582,8 +654,8 @@ class _StableNbrsState extends State<StableNbrs> {
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  height: 485,
-                  width: 1400,
+                  height: 550,
+                  width: double.infinity,
                   child: _buildTable(),
                 ),
               ),

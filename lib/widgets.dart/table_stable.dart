@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hpe_work/data/model.dart';
 import 'package:hpe_work/widgets.dart/ui_colors.dart';
-import 'dart:convert';
-import 'dart:async';
+// import 'dart:convert';
+// import 'dart:async';
 
 class TableW2 extends StatelessWidget {
   const TableW2(this._data, {super.key});
@@ -68,51 +68,46 @@ class TableW2 extends StatelessWidget {
 
   Color _getColor(int index) {
     var status = _data[index].status;
-    if (_data[index].timeLeftOnCurrentState != 0.0 &&
-        _data[index].currentState == 'Full') {
-      if (status == 'Green')
-        return AppColors.Green;
-      else if (status == 'Yellow')
-        return AppColors.Yellow;
-      else if (status == 'Red')
-        return AppColors.Red;
-      else
-        return AppColors.Gray;
-    } else {
-      return AppColors
-          .Gray; // Assuming status is a string like 'green', 'yellow', 'red'
-    }
+    if (status == 'Green')
+      return AppColors.Green;
+    else if (status == 'Yellow')
+      return AppColors.Yellow;
+    else if (status == 'Red')
+      return AppColors.Red;
+    else if (status == 'Light Green')
+      return AppColors.lightGreen;
+    else if (status == 'Lighter Green')
+      return AppColors.vLightGreen;
+    else
+      return AppColors.Gray;
   }
 
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(8),
-          child: DataTable(
-            headingRowColor: WidgetStateColor.resolveWith((callback) {
-              return Colors.white;
-            }),
-            columns: _createColumn(),
-            rows: _createRow(_data),
-            headingTextStyle: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-              fontFamily: 'MetricHPE',
-              color: Colors.black,
-            ),
-            dataTextStyle: const TextStyle(
-              fontSize: 16,
-              fontFamily: 'MetricHPE',
-              color: Colors.black,
-            ),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8),
-              //color: _getColor(index), //Change color here
-            ),
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: 8, left: 8, right: 8),
+        child: DataTable(
+          //horizontalMargin: 8,
+          columnSpacing: 0,
+          headingRowColor: WidgetStateColor.resolveWith((callback) {
+            return Colors.white;
+          }),
+          columns: _createColumn(),
+          rows: _createRow(_data),
+          headingTextStyle: TextStyle(
+            //height: 1,
+            fontSize: 15,
+            fontWeight: FontWeight.bold,
+            fontFamily: 'MetricHPE',
+            color: Colors.black,
           ),
+          dataTextStyle: const TextStyle(
+            fontSize: 14,
+            fontFamily: 'MetricHPE',
+            color: Colors.black,
+          ),
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(8)),
         ),
       ),
     );
@@ -121,19 +116,22 @@ class TableW2 extends StatelessWidget {
 
 List<DataColumn> _createColumn() => [
   DataColumn(label: Text('SNo.')),
-  DataColumn(label: Text('State')),
-  DataColumn(label: Text('Predicted Up Time')),
-  DataColumn(label: Text('Stable Neighbours')),
-  DataColumn(label: Text('IP Version')),
+
+  DataColumn(label: Text('Stable\nNeighbours')),
+  //DataColumn(label: Text('IP Version')),
   DataColumn(label: Text('Router ID')),
 
   DataColumn(label: Text('Area ID')),
+  DataColumn(label: Text('Avg Down \nTime (Sec)')),
 
-  DataColumn(label: Text('Avg Up Time (Sec)')),
+  // DataColumn(label: Text('Up Time below\nMean Count')),
+  DataColumn(label: Text('Avg Up\nTime (Sec)')),
 
-  DataColumn(label: Text('Standard Deviation (Sec)')),
-  DataColumn(label: Text('Avg Down Time (Sec)')),
-  DataColumn(label: Text('Up Time below Mean Count')),
+  DataColumn(label: Text('Standard\nDeviation (Sec)')),
+  DataColumn(label: Text('Predicted\nUp Time')),
+  DataColumn(label: Text('Up Time (Sec)')),
+  DataColumn(label: Text('State')),
+  DataColumn(label: Text('Event')),
 ];
 
 List<DataRow> _createRow(List<LogData> data) {
@@ -145,7 +143,22 @@ List<DataRow> _createRow(List<LogData> data) {
       }),
       cells: [
         DataCell(Text((index + 1).toString())),
-        DataCell(Text(data[index].currentState.toString())),
+
+        DataCell(Text(data[index].nbrID.toString())),
+        //DataCell(Text(data[index].IPversion.toString())),
+        DataCell(Text(data[index].routerID.toString())),
+
+        DataCell(Text(data[index].areaID.toString())),
+
+        DataCell(Text((data[index].DownAvg?.toStringAsFixed(2)) ?? '0.00')),
+
+        // DataCell(
+        //   Text(
+        //     data[index].numberOfTimesFullTimeGoesBelowMeanFullTime.toString(),
+        //   ),
+        // ),
+        DataCell(Text((data[index].FullAvg?.toStringAsFixed(2)) ?? '0.00')),
+        DataCell(Text((data[index].FullSD?.toStringAsFixed(2)) ?? '0.00')),
         DataCell(
           Text(
             data[index].timeLeftOnCurrentState != null
@@ -153,21 +166,16 @@ List<DataRow> _createRow(List<LogData> data) {
                 : '0.00',
           ),
         ),
-        DataCell(Text(data[index].nbrID.toString())),
-        DataCell(Text(data[index].IPversion.toString())),
-        DataCell(Text(data[index].routerID.toString())),
-
-        DataCell(Text(data[index].areaID.toString())),
-
-        DataCell(Text((data[index].FullAvg?.toStringAsFixed(2)) ?? '0.00')),
-        DataCell(Text((data[index].FullSD?.toStringAsFixed(2)) ?? '0.00')),
-        DataCell(Text((data[index].DownAvg?.toStringAsFixed(2)) ?? '0.00')),
 
         DataCell(
           Text(
-            data[index].numberOfTimesFullTimeGoesBelowMeanFullTime.toString(),
+            data[index].timePassedOnCurrentState != null
+                ? data[index].timePassedOnCurrentState!.toStringAsFixed(2)
+                : '0.00',
           ),
         ),
+        DataCell(Text(data[index].currentState.toString())),
+        DataCell(Text(data[index].event.toString())),
       ],
     );
   });

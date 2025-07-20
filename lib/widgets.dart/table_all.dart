@@ -66,47 +66,48 @@ class TableW extends StatelessWidget {
   //   }
   // }
 
-  // Color _getColor(int index) {
-  //   var status = _data[index].status;
-  //   if (status == 'Green')
-  //     return AppColors.Green;
-  //   else if (status == 'Yellow')
-  //     return AppColors.Yellow;
-  //   else if (status == 'Red')
-  //     return AppColors.Red;
-  //   else
-  //     return AppColors
-  //         .Gray; // Assuming status is a string like 'green', 'yellow', 'red'
-  // }
+  Color _getColor(int index) {
+    var status = _data[index].status;
+    if (status == 'Green')
+      return AppColors.Green;
+    else if (status == 'Yellow')
+      return AppColors.Yellow;
+    else if (status == 'Red')
+      return AppColors.Red;
+    else if (status == 'Light Green')
+      return AppColors.lightGreen;
+    else if (status == 'Lighter Green')
+      return AppColors.vLightGreen;
+    else
+      return AppColors.Gray;
+  }
 
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(8),
-          child: DataTable(
-            headingRowColor: WidgetStateColor.resolveWith((callback) {
-              return Colors.white;
-            }),
-            columns: _createColumn(),
-            rows: _createRow(_data),
-            headingTextStyle: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-              fontFamily: 'MetricHPE',
-              color: Colors.black,
-            ),
-            dataTextStyle: const TextStyle(
-              fontSize: 16,
-              fontFamily: 'MetricHPE',
-              color: Colors.black,
-            ),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8),
-              //color: AppColors.secondary, //Color.fromARGB(226, 54, 54, 57),
-            ),
+      child: Padding(
+        padding: const EdgeInsets.all(8),
+        child: DataTable(
+          columnSpacing: 0,
+          headingRowColor: WidgetStateColor.resolveWith((callback) {
+            return Colors.white;
+          }),
+          columns: _createColumn(),
+          rows: _createRow(_data),
+          headingTextStyle: TextStyle(
+            fontSize: 15,
+            fontWeight: FontWeight.bold,
+            fontFamily: 'MetricHPE',
+            color: Colors.black,
+          ),
+          dataTextStyle: const TextStyle(
+            fontSize: 14,
+            fontFamily: 'MetricHPE',
+            color: Colors.black,
+          ),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(8),
+            //color: AppColors.secondary, //Color.fromARGB(226, 54, 54, 57),
           ),
         ),
       ),
@@ -116,7 +117,6 @@ class TableW extends StatelessWidget {
 
 List<DataColumn> _createColumn() => [
   DataColumn(label: Text('SNo.')),
-  DataColumn(label: Text('State')),
 
   //DataColumn(label: Text('Predicted Up Time')),
   DataColumn(label: Text('Neighbour ID')),
@@ -128,26 +128,28 @@ List<DataColumn> _createColumn() => [
   //DataColumn(label: Text('Avg Init to Full Time')),
   DataColumn(label: Text('Avg Up Time (Sec)')),
   DataColumn(label: Text('Avg Down Time (Sec)')),
+  DataColumn(label: Text('Time Passed on\nFull State (Sec)')),
+  DataColumn(label: Text('State')),
+  DataColumn(label: Text('Event')),
 ];
 
 List<DataRow> _createRow(List<LogData2> data) {
   TableW tableW = TableW(data);
   return List.generate(data.length, (index) {
     return DataRow(
-      // color: WidgetStateColor.resolveWith((callback) {
-      //   return tableW._getColor(index);
-      // }),
+      color: WidgetStateColor.resolveWith((callback) {
+        return tableW._getColor(index);
+      }),
       cells: [
         DataCell(Text((index + 1).toString())),
-        DataCell(Text(data[index].currentState.toString())),
+
         // DataCell(
         //   Text(
         //     data[index].timeLeftOnCurrentState != null
         //         ? data[index].timeLeftOnCurrentState!.toStringAsFixed(2)
         //         : '0.00',
         //   ),
-        // ),, // P
-        //predicted up time
+        // ), // predicted up time
         DataCell(Text(data[index].nbrID.toString())),
         DataCell(Text(data[index].IPversion.toString())),
         DataCell(Text(data[index].routerID.toString())),
@@ -158,6 +160,15 @@ List<DataRow> _createRow(List<LogData2> data) {
         DataCell(Text((data[index].FullAvg?.toStringAsFixed(2)) ?? '0.00')),
         //DataCell(Text(data[index].FullAvg.toString())),
         DataCell(Text((data[index].DownAvg?.toStringAsFixed(2)) ?? '0.00')),
+        DataCell(
+          Text(
+            data[index].timePassedOnCurrentState != null
+                ? data[index].timePassedOnCurrentState!.toStringAsFixed(2)
+                : '0.00',
+          ),
+        ),
+        DataCell(Text(data[index].currentState.toString())),
+        DataCell(Text(data[index].event.toString())),
       ],
     );
   });
