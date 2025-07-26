@@ -1,6 +1,10 @@
+// This file handles the switching between different screens in the application.
+// It uses a StatefulWidget to manage the current active screen and allows switching between
+// them while keeping background static.
+
 import 'package:flutter/material.dart';
 import 'package:hpe_work/screens/login_Pg2.dart';
-//import 'package:hpe_work/screens/analytics.dart';
+// import 'package:hpe_work/screens/analytics.dart';
 import 'package:hpe_work/screens/stable_nbrs2.dart';
 // import 'package:hpe_work/dumps/stable_nbrs.dart';
 
@@ -34,12 +38,8 @@ class _SwitchScreen extends State<SwitchScreen> {
 
     if (activeScr == 'analysisScreen') {
       screen = StableNbrs();
-      //fetchUniq().fetchList();
+      // fetchUniq().fetchList();
     }
-
-    // if (activeScr == 'analysisScreen') {
-    //   screen = GradientC(switchScr);
-    // }
 
     return MaterialApp(home: Scaffold(body: Container(child: screen)));
   }

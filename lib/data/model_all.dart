@@ -1,3 +1,5 @@
+// Data model for "Logs" table
+
 class LogData2 {
   final String? event;
   final String? status;

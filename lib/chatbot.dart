@@ -16,20 +16,19 @@ class _chatbotState extends State<chatbot> {
   final ChatUser _currentUser = ChatUser(
     id: '1',
     firstName: 'You',
-    //lastName: 'Name',
+    // lastName: 'Name',
   );
 
   final ChatUser _chatBot = ChatUser(
     id: '2',
     firstName: 'Chatbot',
-    //lastName: 'Name',
+    // lastName: 'Name',
   );
 
   final List<ChatMessage> _messages = <ChatMessage>[];
 
   void _chat(ChatMessage msg) async {
-    final url = Uri.http(chatUrl, 'chat'); //  '/chat response'
-
+    final url = Uri.http(chatUrl, 'chat');
     final response = await http.post(
       url,
       headers: {'Content-Type': 'application/json'},
@@ -42,7 +41,7 @@ class _chatbotState extends State<chatbot> {
     // final response = await http.get(url);
 
     final String _Tempdata = json.decode(response.body);
-    print('Response data: $_Tempdata');
+    // print('Response data: $_Tempdata');
     setState(() {
       _messages.insert(
         0,
@@ -50,7 +49,7 @@ class _chatbotState extends State<chatbot> {
       );
     });
 
-    //final List<LogData2> _LoadChat = [];
+    // final List<LogData2> _LoadChat = [];
 
     // for (final item in _Tempdata) {
     //   _LoadChat.add(
@@ -61,7 +60,7 @@ class _chatbotState extends State<chatbot> {
 
     // setState(() {
     //   _data3 = _Loaddata;
-    //   //initState();
+    //   initState();
     // });
   }
 
@@ -85,9 +84,8 @@ class _chatbotState extends State<chatbot> {
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         child: DashChat(
           messageOptions: MessageOptions(
-            //showCurrentUserAvatar: true,
+            // showCurrentUserAvatar: true,
             showOtherUsersAvatar: false,
-            // top: ,
             messageTextBuilder: (message, previousMessage, nextMessage) {
               return Text(
                 message.text,
@@ -109,7 +107,7 @@ class _chatbotState extends State<chatbot> {
             inputDecoration: InputDecoration(
               hintText: 'Ask anything',
               hintStyle: TextStyle(color: Colors.grey),
-              //suffixIcon: Icon(Icons.message, color: AppColors.primary2),
+              // suffixIcon: Icon(Icons.message, color: AppColors.primary2),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(15),
                 borderSide: BorderSide(color: AppColors.primary2),
@@ -128,7 +126,7 @@ class _chatbotState extends State<chatbot> {
   }
 
   Future<void> getChatResponse(ChatMessage m) async {
-    print(m.text);
+    // print(m.text);
     setState(() {
       _messages.insert(0, m);
       _chat(m);

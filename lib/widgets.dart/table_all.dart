@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-//import 'package:hpe_work/data/model.dart';
 import 'package:hpe_work/data/model_all.dart';
 import 'package:hpe_work/widgets.dart/ui_colors.dart';
-//import 'package:hpe_work/data/dropdown_vals.dart';
 
 class TableW extends StatelessWidget {
   const TableW(this._data, {super.key});

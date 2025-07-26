@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-//import 'package:hpe_work/data/dropdown_vals.dart';
 import 'package:hpe_work/data/model.dart';
 import 'package:hpe_work/widgets.dart/ui_colors.dart';
 //import 'dart:convert';
-//import 'package:hpe_work/data/dropdown_vals.dart';
 
 class TableW3 extends StatelessWidget {
   const TableW3(this._data, {super.key});
@@ -72,7 +70,7 @@ class TableW3 extends StatelessWidget {
           ),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
-            //color: AppColors.secondary, //Color.fromARGB(226, 54, 54, 57),
+            // color: AppColors.secondary, //Color.fromARGB(226, 54, 54, 57),
           ),
         ),
       ),
@@ -84,18 +82,18 @@ List<DataColumn> _createColumn() => [
   DataColumn(label: Text('SNo.')),
 
   DataColumn(label: Text('Un-Stable Neighbours')),
-  //DataColumn(label: Text('IP Version')),
+  // DataColumn(label: Text('IP Version')),
   DataColumn(label: Text('Router ID')),
 
-  //DataColumn(label: Text('Stable neighbours')),
+  // DataColumn(label: Text('Stable neighbours')),
   DataColumn(label: Text('Area ID')),
 
   DataColumn(label: Text('Avg Init to Full\nTime (Sec)')),
-  //DataColumn(label: Text('Avg Down\nTime (Sec)')),
+  // DataColumn(label: Text('Avg Down\nTime (Sec)')),
   DataColumn(label: Text('Predicted\nUp Time')),
   DataColumn(
     label: Text('Churn above\nMean Count'),
-  ), //Above Mean Recovery Count
+  ), // Above Mean Recovery Count
   DataColumn(label: Text('Avg Up\nTime (Sec)')),
 
   DataColumn(label: Text('Down Time (Sec)')),
@@ -115,7 +113,7 @@ List<DataRow> _createRow(List<LogData> data) {
         DataCell(Text((index + 1).toString())),
 
         DataCell(Text(data[index].nbrID.toString())),
-        //DataCell(Text(data[index].IPversion.toString())),
+        // DataCell(Text(data[index].IPversion.toString())),
         DataCell(Text(data[index].routerID.toString())),
 
         DataCell(Text(data[index].areaID.toString())),
@@ -124,7 +122,7 @@ List<DataRow> _createRow(List<LogData> data) {
           Text((data[index].avgInitToFullTime?.toStringAsFixed(2)) ?? '0.00'),
         ),
 
-        //DataCell(Text((data[index].DownAvg?.toStringAsFixed(2)) ?? '0.00')),
+        // DataCell(Text((data[index].DownAvg?.toStringAsFixed(2)) ?? '0.00')),
         DataCell(
           Text(
             data[index].timeLeftOnCurrentState != null

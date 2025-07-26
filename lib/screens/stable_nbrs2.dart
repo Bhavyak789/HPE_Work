@@ -23,7 +23,6 @@ class _StableNbrsState extends State<StableNbrs> {
   List<LogData> _data2 = [];
   List<LogData2> _data3 = [];
 
-  // List<LogData2> _filteredData1 = [];
   int table = 3;
   final String serverUrl = 'harris-eddie-shorts-projected.trycloudflare.com';
 
@@ -37,12 +36,12 @@ class _StableNbrsState extends State<StableNbrs> {
   String? areaAdd;
   String? ipAdd;
 
-  void initState() {
-    super.initState();
-    _loadNbrID;
-    _loadRtrID;
-    _loadareaID;
-  }
+  // void initState() {
+  //   super.initState();
+  //   _loadNbrID;
+  //   _loadRtrID;
+  //   _loadareaID;
+  // }
 
   Widget _buildTable() {
     if (table == 2) {
@@ -54,6 +53,7 @@ class _StableNbrsState extends State<StableNbrs> {
     } else {
       _loadJSON3();
       return TableW(_data3); //All data
+
       // return TableW(
       //   nbrValue == 'Neighbour Id' &&
       //           areaValue == 'Area Id' &&
@@ -65,29 +65,27 @@ class _StableNbrsState extends State<StableNbrs> {
     }
   }
 
-  // void _sendJSON() async {
+  // Methods to dynamically load unique IDs from the backend
 
+  // void _loadNbrID() async {
+  //   final url = Uri.http(serverUrl, 'nbrID');
+  //   final response = await http.get(url);
+  //   final List<String> nbrID = List<String>.from(
+  //     json.decode(response.body),
+  //   ); //json.decode(response.body);
   // }
 
-  void _loadNbrID() async {
-    final url = Uri.http(serverUrl, 'nbrID');
-    final response = await http.get(url);
-    final List<String> nbrID = List<String>.from(
-      json.decode(response.body),
-    ); //json.decode(response.body);
-  }
+  // void _loadRtrID() async {
+  //   final url = Uri.http(serverUrl, 'rtrID');
+  //   final response = await http.get(url);
+  //   final List<String> routerID = json.decode(response.body);
+  // }
 
-  void _loadRtrID() async {
-    final url = Uri.http(serverUrl, 'rtrID');
-    final response = await http.get(url);
-    final List<String> routerID = json.decode(response.body);
-  }
-
-  void _loadareaID() async {
-    final url = Uri.http(serverUrl, 'nbrID');
-    final response = await http.get(url);
-    final List<String> areaID = json.decode(response.body);
-  }
+  // void _loadareaID() async {
+  //   final url = Uri.http(serverUrl, 'nbrID');
+  //   final response = await http.get(url);
+  //   final List<String> areaID = json.decode(response.body);
+  // }
 
   void _loadJSON() async {
     //Stable Data
@@ -126,7 +124,7 @@ class _StableNbrsState extends State<StableNbrs> {
                   : (item['FullSD'] ?? -1),
           avgInitToFullTime: item['avgInitToFullTime'], //?? 0,
           numberOfTimesFullTimeGoesBelowMeanFullTime:
-              item['numberOfTimesFullTimeGoesBelowMeanFullTime'], //?? 0,    FullBelowMeanCnt
+              item['numberOfTimesFullTimeGoesBelowMeanFullTime'], //?? 0,  FullBelowMeanCnt
           currentState: item['currentState'] ?? "-",
           currentDateAndTime: item['currentDateAndTime'] ?? "-",
           status: item['status'] ?? "-",
@@ -143,19 +141,19 @@ class _StableNbrsState extends State<StableNbrs> {
       );
     }
     // print('Json1');
-    //print(_Loaddata);
+    // print(_Loaddata);
 
     setState(() {
       _data = _Loaddata;
-      //_sendJSON();
-      //_filterData();
+      // _sendJSON();
+      // _filterData();
     });
   }
 
   void _loadJSON2() async {
-    //Unstable Data
+    // Unstable Data
     final url = Uri.http(serverUrl, 'unstability');
-    //final response = await http.get(url);
+    // final response = await http.get(url);
     final response = await http.post(
       url,
       headers: {'Content-Type': 'application/json'},
@@ -226,8 +224,8 @@ class _StableNbrsState extends State<StableNbrs> {
 
     // print('Fetching data from URL: $url');
     // print('Response status: ${response.statusCode}');
-    //print('Response body: ${response.body}');
-    //final response = await http.get(url);
+    // print('Response body: ${response.body}');
+    // final response = await http.get(url);
     final List<dynamic> _Tempdata = json.decode(response.body);
     final List<LogData2> _Loaddata = [];
     for (final item in _Tempdata) {
@@ -262,11 +260,11 @@ class _StableNbrsState extends State<StableNbrs> {
       );
     }
 
-    //print(_Tempdata);
+    // print(_Tempdata);
 
     setState(() {
       _data3 = _Loaddata;
-      //initState();
+      // initState();
     });
   }
 
@@ -291,10 +289,10 @@ class _StableNbrsState extends State<StableNbrs> {
         child: const Icon(Icons.chat_bubble, color: Colors.white),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-      //endDrawer: _chatOverlay(),
+      // endDrawer: _chatOverlay(),
       backgroundColor: AppColors.secondary,
       appBar: AppBar(
-        //  automaticallyImplyLeading: false,
+        // automaticallyImplyLeading: false,
         title: const Text(
           'HPE Network Analytics',
           style: TextStyle(
@@ -319,7 +317,7 @@ class _StableNbrsState extends State<StableNbrs> {
             children: [
               Container(
                 height: 57,
-                //width: 1290,
+                // width: 1290,
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(15),
@@ -346,6 +344,9 @@ class _StableNbrsState extends State<StableNbrs> {
                           borderRadius: BorderRadius.circular(10),
                         ),
                         padding: const EdgeInsets.symmetric(horizontal: 10),
+
+                        // DropDown search implementation testing
+
                         // child: DropdownSearch<String>(
                         //   key: Key('nbrId'),
                         //   items: (filter, loadProps) => nbrId,
@@ -575,12 +576,11 @@ class _StableNbrsState extends State<StableNbrs> {
                       setState(() {
                         _loadJSON3;
                       });
-                      // Handle login action
                     },
                     style: ElevatedButton.styleFrom(
                       foregroundColor: AppColors.primary2,
                       backgroundColor: Colors.white,
-                      //minimumSize: Size(128, 40),
+                      // minimumSize: Size(128, 40),
                       padding: const EdgeInsets.symmetric(
                         horizontal: 80,
                         vertical: 16,
@@ -601,7 +601,6 @@ class _StableNbrsState extends State<StableNbrs> {
                       setState(() {
                         _loadJSON;
                       });
-                      // Handle login action
                     },
                     style: ElevatedButton.styleFrom(
                       foregroundColor: AppColors.primary2,
@@ -626,7 +625,6 @@ class _StableNbrsState extends State<StableNbrs> {
                       setState(() {
                         _loadJSON2;
                       });
-                      // Handle login action
                     },
                     style: ElevatedButton.styleFrom(
                       foregroundColor: AppColors.primary2,
@@ -647,7 +645,6 @@ class _StableNbrsState extends State<StableNbrs> {
                 ],
               ),
               SizedBox(height: 15),
-              //CustomScrollView
               SingleChildScrollView(
                 child: Container(
                   decoration: BoxDecoration(

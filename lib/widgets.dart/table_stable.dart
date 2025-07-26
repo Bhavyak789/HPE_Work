@@ -88,7 +88,7 @@ class TableW2 extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.only(bottom: 8, left: 8, right: 8),
         child: DataTable(
-          //horizontalMargin: 8,
+          // horizontalMargin: 8,
           columnSpacing: 0,
           headingRowColor: WidgetStateColor.resolveWith((callback) {
             return Colors.white;
@@ -96,7 +96,7 @@ class TableW2 extends StatelessWidget {
           columns: _createColumn(),
           rows: _createRow(_data),
           headingTextStyle: TextStyle(
-            //height: 1,
+            // height: 1,
             fontSize: 15,
             fontWeight: FontWeight.bold,
             fontFamily: 'MetricHPE',
@@ -145,7 +145,7 @@ List<DataRow> _createRow(List<LogData> data) {
         DataCell(Text((index + 1).toString())),
 
         DataCell(Text(data[index].nbrID.toString())),
-        //DataCell(Text(data[index].IPversion.toString())),
+        // DataCell(Text(data[index].IPversion.toString())),
         DataCell(Text(data[index].routerID.toString())),
 
         DataCell(Text(data[index].areaID.toString())),

@@ -50,7 +50,7 @@ class LoginPage extends StatelessWidget {
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(20),
                   ),
-                  //color: const Color.fromRGBO(247, 247, 247, 1),
+                  // color: const Color.fromRGBO(247, 247, 247, 1),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -125,12 +125,12 @@ class LoginPage extends StatelessWidget {
                       ),
                       const SizedBox(height: 30),
                       Row(
-                        //crossAxisAlignment: CrossAxisAlignment.center,
-                        //mainAxisAlignment: MainAxisAlignment.center,
+                        // crossAxisAlignment: CrossAxisAlignment.center,
+                        // mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          //SizedBox(width: 10),
                           ElevatedButton(
                             onPressed: analysis,
+                            // todo - Handle login action
                             style: ElevatedButton.styleFrom(
                               backgroundColor: const Color.fromARGB(
                                 255,
@@ -158,7 +158,7 @@ class LoginPage extends StatelessWidget {
                           SizedBox(width: 18),
                           ElevatedButton(
                             onPressed: () {
-                              // Handle login action
+                              // todo - Handle SignUp action
                             },
                             style: ElevatedButton.styleFrom(
                               foregroundColor: Color.fromARGB(255, 1, 169, 130),

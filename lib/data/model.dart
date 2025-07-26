@@ -1,3 +1,5 @@
+// Data model for "Stable" and "Unstable" tables
+
 class LogData {
   final String? event;
   final String? currentDateAndTime;
